@@ -52,6 +52,13 @@ git clone https://github.com/YovanaRomero/UTP-LP-LIBRERIA.git
 ```
 ### BackEnd
 ubiquese desde su terminal en la carpeta del proyecto `backend`
+
+#### Purgar dependencias 
+
+```shell
+pip cache purge
+```
+
 #### Instalar dependencias 
 
 ```shell

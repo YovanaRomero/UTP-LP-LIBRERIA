@@ -1,17 +1,16 @@
 import mysql.connector
 from mysql.connector import Error
-import os
-from dotenv import load_dotenv
+from .config import settings
 
-load_dotenv()
 
 class Database:
     def __init__(self):
-        self.host = os.getenv('DB_HOST', '173.249.41.159')
-        self.database = os.getenv('DB_NAME', 'salesdb')
-        self.user = os.getenv('DB_USER', 'root')
-        self.password = os.getenv('DB_PASSWORD', 'my801521my')
-        self.port = os.getenv('DB_PORT', '3306')
+        # Usar settings centralizados
+        self.host = settings.DB_HOST
+        self.database = settings.DB_NAME
+        self.user = settings.DB_USER
+        self.password = settings.DB_PASSWORD
+        self.port = settings.DB_PORT
         self.connection = None
 
     def get_connection(self):
