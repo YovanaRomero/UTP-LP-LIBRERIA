@@ -72,15 +72,17 @@ uvicorn app.main:app --reload
 Configurar un launch.json
 Ve al panel "Run and Debug" (icono de play y bug en la barra lateral).
 
-#### Swagger
-> Nota: verifique ingresando a   `http://localhost:8000/docs` 
-
+#### Screenshot
+> Nota: puede verifique ingresando a swagger [http://localhost:8000/docs](http://localhost:8000/docs)
 ![Texto alternativo](testing/screenshot/screenshot_swagger.png).
+
+> Nota: puede verifique ingresando a mysql
+![Texto alternativo](testing/screenshot/screenshot_database.png).
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-
+testing/screenshot_swagger.png
 
