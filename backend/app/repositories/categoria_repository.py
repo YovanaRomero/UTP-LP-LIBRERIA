@@ -15,7 +15,7 @@ class CategoriaRepository:
 
         try:
             cursor = connection.cursor(dictionary=True)
-            query = "SELECT categoria_id, categoria_descripcion FROM categoria"
+            query = "SELECT categoria_id, categoria_guid, categoria_nombre, categoria_descripcion, categoria_estado FROM categoria"
             cursor.execute(query)
             results = cursor.fetchall()
 
@@ -23,7 +23,10 @@ class CategoriaRepository:
             for row in results:
                 categorias.append(Categoria(
                     categoria_id=row['categoria_id'],
-                    categoria_descripcion=row['categoria_descripcion']
+                    categoria_guid=row['categoria_guid'],
+                    categoria_nombre=row['categoria_nombre'],
+                    categoria_descripcion=row['categoria_descripcion'],
+                    categoria_estado=row['categoria_estado']
                 ))
             return categorias
         except Error as e:
@@ -41,14 +44,17 @@ class CategoriaRepository:
 
         try:
             cursor = connection.cursor(dictionary=True)
-            query = "SELECT categoria_id, categoria_descripcion FROM categoria WHERE categoria_id = %s"
+            query = "SELECT categoria_id, categoria_guid, categoria_nombre, categoria_descripcion, categoria_estado FROM categoria WHERE categoria_id = %s"
             cursor.execute(query, (categoria_id,))
             result = cursor.fetchone()
 
             if result:
                 return Categoria(
                     categoria_id=result['categoria_id'],
-                    categoria_descripcion=result['categoria_descripcion']
+                    categoria_guid=result['categoria_guid'],
+                    categoria_nombre=result['categoria_nombre'],
+                    categoria_descripcion=result['categoria_descripcion'],
+                    categoria_estado=result['categoria_estado']
                 )
             return None
         except Error as e:
@@ -66,15 +72,16 @@ class CategoriaRepository:
 
         try:
             cursor = connection.cursor()
-            query = "INSERT INTO categoria (categoria_guid, categoria_descripcion) VALUES (UUID(), %s)"
-            cursor.execute(query, (categoria.categoria_descripcion,))
+            query = "INSERT INTO categoria (categoria_guid, categoria_nombre, categoria_descripcion, categoria_estado) VALUES (UUID(), %s, %s, %s)"
+            cursor.execute(query, (
+                categoria.categoria_nombre,
+                categoria.categoria_descripcion,
+                categoria.categoria_estado
+            ))
             connection.commit()
 
             categoria_id = cursor.lastrowid
-            return Categoria(
-                categoria_id=categoria_id,
-                categoria_descripcion=categoria.categoria_descripcion
-            )
+            return CategoriaRepository.get_by_id(categoria_id)
         except Error as e:
             print(f"Error al crear categoría: {e}")
             connection.rollback()
@@ -96,9 +103,17 @@ class CategoriaRepository:
             update_fields = []
             values = []
 
+            if categoria.categoria_nombre is not None:
+                update_fields.append("categoria_nombre = %s")
+                values.append(categoria.categoria_nombre)
+
             if categoria.categoria_descripcion is not None:
                 update_fields.append("categoria_descripcion = %s")
                 values.append(categoria.categoria_descripcion)
+
+            if categoria.categoria_estado is not None:
+                update_fields.append("categoria_estado = %s")
+                values.append(categoria.categoria_estado)
 
             if not update_fields:
                 return None  # No hay campos para actualizar

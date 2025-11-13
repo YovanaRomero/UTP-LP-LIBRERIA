@@ -16,8 +16,10 @@ class ProductoRepository:
         try:
             cursor = connection.cursor(dictionary=True)
             query = """
-                SELECT producto_id, producto_nombre, producto_descripcion, 
-                       producto_precio, categoria_id FROM producto
+                SELECT producto_id, producto_guid, producto_serie, producto_nombre, 
+                       producto_descripcion, producto_precio, producto_stock, 
+                       producto_color, producto_dimensiones, producto_estado, 
+                       categoria_categoria_id FROM producto
             """
             cursor.execute(query)
             results = cursor.fetchall()
@@ -26,10 +28,16 @@ class ProductoRepository:
             for row in results:
                 productos.append(Producto(
                     producto_id=row['producto_id'],
+                    producto_guid=row['producto_guid'],
+                    producto_serie=row['producto_serie'],
                     producto_nombre=row['producto_nombre'],
                     producto_descripcion=row['producto_descripcion'],
                     producto_precio=row['producto_precio'],
-                    categoria_id=row['categoria_id']
+                    producto_stock=row['producto_stock'],
+                    producto_color=row['producto_color'],
+                    producto_dimensiones=row['producto_dimensiones'],
+                    producto_estado=row['producto_estado'],
+                    categoria_categoria_id=row['categoria_categoria_id']
                 ))
             return productos
         except Error as e:
@@ -48,8 +56,10 @@ class ProductoRepository:
         try:
             cursor = connection.cursor(dictionary=True)
             query = """
-                SELECT producto_id, producto_nombre, producto_descripcion, 
-                       producto_precio, categoria_id FROM producto WHERE producto_id = %s
+                SELECT producto_id, producto_guid, producto_serie, producto_nombre, 
+                       producto_descripcion, producto_precio, producto_stock, 
+                       producto_color, producto_dimensiones, producto_estado, 
+                       categoria_categoria_id FROM producto WHERE producto_id = %s
             """
             cursor.execute(query, (producto_id,))
             result = cursor.fetchone()
@@ -57,10 +67,16 @@ class ProductoRepository:
             if result:
                 return Producto(
                     producto_id=result['producto_id'],
+                    producto_guid=result['producto_guid'],
+                    producto_serie=result['producto_serie'],
                     producto_nombre=result['producto_nombre'],
                     producto_descripcion=result['producto_descripcion'],
                     producto_precio=result['producto_precio'],
-                    categoria_id=result['categoria_id']
+                    producto_stock=result['producto_stock'],
+                    producto_color=result['producto_color'],
+                    producto_dimensiones=result['producto_dimensiones'],
+                    producto_estado=result['producto_estado'],
+                    categoria_categoria_id=result['categoria_categoria_id']
                 )
             return None
         except Error as e:
@@ -79,26 +95,27 @@ class ProductoRepository:
         try:
             cursor = connection.cursor()
             query = """
-                INSERT INTO producto (producto_nombre, producto_descripcion, 
-                                     producto_precio, categoria_id) 
-                VALUES (%s, %s, %s, %s)
+                INSERT INTO producto (producto_guid, producto_serie, producto_nombre, 
+                                     producto_descripcion, producto_precio, producto_stock, 
+                                     producto_color, producto_dimensiones, producto_estado, 
+                                     categoria_categoria_id) 
+                VALUES (UUID(), %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(query, (
+                producto.producto_serie,
                 producto.producto_nombre,
                 producto.producto_descripcion,
                 producto.producto_precio,
-                producto.categoria_id
+                producto.producto_stock,
+                producto.producto_color,
+                producto.producto_dimensiones,
+                producto.producto_estado,
+                producto.categoria_categoria_id
             ))
             connection.commit()
 
             producto_id = cursor.lastrowid
-            return Producto(
-                producto_id=producto_id,
-                producto_nombre=producto.producto_nombre,
-                producto_descripcion=producto.producto_descripcion,
-                producto_precio=producto.producto_precio,
-                categoria_id=producto.categoria_id
-            )
+            return ProductoRepository.get_by_id(producto_id)
         except Error as e:
             print(f"Error al crear producto: {e}")
             connection.rollback()
@@ -132,9 +149,25 @@ class ProductoRepository:
                 update_fields.append("producto_precio = %s")
                 values.append(producto.producto_precio)
 
-            if producto.categoria_id is not None:
-                update_fields.append("categoria_id = %s")
-                values.append(producto.categoria_id)
+            if producto.producto_stock is not None:
+                update_fields.append("producto_stock = %s")
+                values.append(producto.producto_stock)
+
+            if producto.producto_color is not None:
+                update_fields.append("producto_color = %s")
+                values.append(producto.producto_color)
+
+            if producto.producto_dimensiones is not None:
+                update_fields.append("producto_dimensiones = %s")
+                values.append(producto.producto_dimensiones)
+
+            if producto.producto_estado is not None:
+                update_fields.append("producto_estado = %s")
+                values.append(producto.producto_estado)
+
+            if producto.categoria_categoria_id is not None:
+                update_fields.append("categoria_categoria_id = %s")
+                values.append(producto.categoria_categoria_id)
 
             if not update_fields:
                 return None  # No hay campos para actualizar
