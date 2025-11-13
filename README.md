@@ -41,9 +41,12 @@ Permite mostrar la información de los productos, así como las operaciones:
   - Asignar productos a categorías
 
 
-## 🛠️ Ejecutar el proyecto
-Muestra las instrucciones necesarias para clonar y ejecutar el proyecto
+## 🛠️ Especificaciones Técnicas
+- [x] BackEnd: [Python 3.13.x](https://www.python.org/downloads/release/python-3135/)  
+- [x] FrontEnd: [Node 20.19.5 (LTS)](https://nodejs.org/en/download)   
+- [x] FrontEnd: [Angular CLI 20.x](https://angular.dev/installation)  
 
+## 🚀 Arrancar Proyecto
 ### Clonar repositorio
 considere siempre usar la rama: **master**
 
@@ -52,6 +55,10 @@ git clone https://github.com/YovanaRomero/UTP-LP-LIBRERIA.git
 ```
 ### BackEnd
 ubiquese desde su terminal en la carpeta del proyecto `backend`
+
+```shell
+cd backend
+```
 
 #### Purgar dependencias 
 
@@ -74,15 +81,34 @@ Ve al panel "Run and Debug" (icono de play y bug en la barra lateral).
 
 #### Screenshot
 > Nota: puede verifique ingresando a swagger [http://localhost:8000/docs](http://localhost:8000/docs)
-![Texto alternativo](testing/screenshot/screenshot_swagger.png).
 
-> Nota: puede verifique ingresando a mysql
-![Texto alternativo](testing/screenshot/screenshot_database.png).
+![Texto alternativo](testing/screenshot_swagger.png).
+
+
+### FrontEnd
+ubiquese desde su terminal en la carpeta del proyecto `frontend`
+```shell
+cd frontend
+```
+#### Instalar dependencias
+
+```shell
+npm install
+```
+
+#### Ejecutar desde la terminal 
+
+```shell
+ng serve -o
+```
+
+#### Screenshot
+> Nota: puede verifique ingresando a [http://localhost:4200](http://localhost:4200)
+
+![Texto alternativo](testing/screenshot_login.png).
+![Texto alternativo](testing/screenshot_frontend.png).
+
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-
-testing/screenshot_swagger.png
-

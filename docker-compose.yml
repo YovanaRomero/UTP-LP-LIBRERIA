@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8000"  # Exponer en puerto 5001
+    volumes:
+      - ./backend/app:/app/app  # Para desarrollo con hot-reload
+    environment:
+      - PYTHONPATH=/app
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"  # Exponer Angular en puerto 4200
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
