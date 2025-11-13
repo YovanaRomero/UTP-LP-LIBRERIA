@@ -1,11 +1,14 @@
 from mysql.connector import Error
-from .database import db
-from .models import Categoria, CategoriaCreate, CategoriaUpdate
+from ..database import db
+from ..models import Categoria, CategoriaCreate, CategoriaUpdate
 
 
-class CategoriaService:
+class CategoriaRepository:
+    """Repository para acceso a datos de categorías."""
+
     @staticmethod
-    def get_all_categorias():
+    def get_all():
+        """Obtener todas las categorías de la base de datos."""
         connection = db.get_connection()
         if connection is None:
             return []
@@ -30,7 +33,8 @@ class CategoriaService:
             cursor.close()
 
     @staticmethod
-    def get_categoria_by_id(categoria_id: int):
+    def get_by_id(categoria_id: int):
+        """Obtener una categoría por ID."""
         connection = db.get_connection()
         if connection is None:
             return None
@@ -54,14 +58,15 @@ class CategoriaService:
             cursor.close()
 
     @staticmethod
-    def create_categoria(categoria: CategoriaCreate):
+    def create(categoria: CategoriaCreate):
+        """Crear una nueva categoría."""
         connection = db.get_connection()
         if connection is None:
             return None
 
         try:
             cursor = connection.cursor()
-            query = "INSERT INTO categoria (categoria_guid,categoria_descripcion) VALUES (UUID(),%s)"
+            query = "INSERT INTO categoria (categoria_guid, categoria_descripcion) VALUES (UUID(), %s)"
             cursor.execute(query, (categoria.categoria_descripcion,))
             connection.commit()
 
@@ -78,7 +83,8 @@ class CategoriaService:
             cursor.close()
 
     @staticmethod
-    def update_categoria(categoria_id: int, categoria: CategoriaUpdate):
+    def update(categoria_id: int, categoria: CategoriaUpdate):
+        """Actualizar una categoría existente."""
         connection = db.get_connection()
         if connection is None:
             return None
@@ -107,7 +113,7 @@ class CategoriaService:
                 return None
 
             # Obtener la categoría actualizada
-            return CategoriaService.get_categoria_by_id(categoria_id)
+            return CategoriaRepository.get_by_id(categoria_id)
         except Error as e:
             print(f"Error al actualizar categoría: {e}")
             connection.rollback()
@@ -116,7 +122,8 @@ class CategoriaService:
             cursor.close()
 
     @staticmethod
-    def delete_categoria(categoria_id: int):
+    def delete(categoria_id: int):
+        """Eliminar una categoría."""
         connection = db.get_connection()
         if connection is None:
             return False
