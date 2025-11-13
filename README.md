@@ -1,15 +1,15 @@
 # Libreria Virtual 1.0.0
 ![Badge en Desarollo](https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green)
 
-## 🚀 Acerca del grupo
-- Romero Gutierrez Yovana
+## 💪 Acerca del grupo
+- Romero Gutierrez Yovana Rosa 🌸
 - De la Cruz Chaveta Julio
 - Rojas Leon Kelvin Marco Antonio 
 - Davila Sanchez Victor Daniel
 - Garcia Valderrama Augusto Manuel
 
-## :hammer:Funcionalidades del proyecto
-- `Mantenimiento de Categoria`: 
+## 💡 Funcionalidades del proyecto
+- `Mantenimiento de Categoria` ✔️: 
   
 | Field                     | Type     | Description      |
 | :------------------------ | :------- | :--------------- |
@@ -24,7 +24,7 @@
     - Modificar categoría
     - Eliminar categoría 
 
-- `Mantenimiento de Productos`: 
+- `Mantenimiento de Productos` ✔️: 
   
 | Field                     | Type     | Description      |
 | :------------------------ | :------- | :--------------- |
@@ -50,10 +50,10 @@ Permite mostrar la información de los productos, así como las operaciones:
 - [x] FrontEnd: [Node 20.19.5 (LTS)](https://nodejs.org/en/download)   
 - [x] FrontEnd: [Angular CLI 20.x](https://angular.dev/installation)  
 
-## 🚀 Diagrama de Arquitectura
+## 📐 Diagrama de Arquitectura
 ![Texto alternativo](testing/screenshot_arquitectura.png).
 
-## 🚀 Modelo Entidad Relacion (DataBase)
+## 📐 Modelo Entidad Relacion (DataBase)
 ![Texto alternativo](testing/screenshot_database.png).
 
 
@@ -90,13 +90,13 @@ uvicorn app.main:app --reload
 Configurar un launch.json
 Ve al panel "Run and Debug" (icono de play y bug en la barra lateral).
 
-#### Screenshot
+#### 📷 Screenshot
 > Nota: puede verifique ingresando a swagger [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ![Texto alternativo](testing/screenshot_swagger.png).
 
 
-### FrontEnd
+### FrontEnd 🌐
 ubiquese desde su terminal en la carpeta del proyecto `frontend`
 ```shell
 cd frontend
@@ -113,7 +113,7 @@ npm install
 ng serve -o
 ```
 
-#### Screenshot
+#### 📷 Screenshot
 > Nota: puede verifique ingresando a [http://localhost:4200](http://localhost:4200)
 
 ![Texto alternativo](testing/screenshot_login.png).
