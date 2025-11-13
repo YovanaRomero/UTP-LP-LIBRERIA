@@ -50,6 +50,13 @@ Permite mostrar la información de los productos, así como las operaciones:
 - [x] FrontEnd: [Node 20.19.5 (LTS)](https://nodejs.org/en/download)   
 - [x] FrontEnd: [Angular CLI 20.x](https://angular.dev/installation)  
 
+## 🚀 Diagrama de Arquitectura
+![Texto alternativo](testing/screenshot_arquitectura.png).
+
+## 🚀 Modelo Entidad Relacion (DataBase)
+![Texto alternativo](testing/screenshot_database.png).
+
+
 ## 🚀 Arrancar Proyecto
 ### Clonar repositorio
 considere siempre usar la rama: **master**
