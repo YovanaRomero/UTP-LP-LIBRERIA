@@ -7,10 +7,16 @@ from .routes import (
     usuarios_router,
     pedidos_router,
 )
+from .config import settings
 
 app = FastAPI(
-    title="API Libreria Virtual",
+    title=f"API Libreria Virtual - {settings.TEAM_NAME}",
     version="1.0.0",
+    description="API REST para gestión de librería virtual (categorías, productos, clientes, usuarios, pedidos)",   
+    license_info={
+        "name": settings.LICENSE_NAME,
+        "url": settings.LICENSE_URL,
+    },
     swagger_ui_parameters={"defaultModelsExpandDepth": -1},
 )
 

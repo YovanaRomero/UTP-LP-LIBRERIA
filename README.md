@@ -3,6 +3,10 @@
 
 ## 🚀 Acerca del grupo
 - Romero Gutierrez Yovana
+- De la Cruz Chaveta Julio
+- Rojas Leon Kelvin Marco Antonio 
+- Davila Sanchez Victor Daniel
+- Garcia Valderrama Augusto Manuel
 
 ## :hammer:Funcionalidades del proyecto
 - `Mantenimiento de Categoria`: 
