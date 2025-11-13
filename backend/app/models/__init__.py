@@ -2,6 +2,8 @@ from .categoria import Categoria, CategoriaBase, CategoriaCreate, CategoriaUpdat
 from .producto import Producto, ProductoBase, ProductoCreate, ProductoUpdate
 from .cliente import Cliente, ClienteBase, ClienteCreate, ClienteUpdate
 from .usuario import Usuario, UsuarioBase, UsuarioLogin, TokenResponse
+from .pedido import Pedido, PedidoBase, PedidoCreate, PedidoUpdate
+from .detalle import Detalle, DetalleBase, DetalleCreate, DetalleUpdate
 __all__ = [
     "Categoria",
     "CategoriaBase",
@@ -19,4 +21,13 @@ __all__ = [
     "UsuarioBase",
     "UsuarioLogin",
     "TokenResponse"
+    ,
+    "Pedido",
+    "PedidoBase",
+    "PedidoCreate",
+    "PedidoUpdate",
+    "Detalle",
+    "DetalleBase",
+    "DetalleCreate",
+    "DetalleUpdate"
 ]

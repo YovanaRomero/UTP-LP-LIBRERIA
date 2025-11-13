@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import categorias_router, productos_router, clientes_router, usuarios_router
+from .routes import (
+    categorias_router,
+    productos_router,
+    clientes_router,
+    usuarios_router,
+    pedidos_router,
+)
 
 app = FastAPI(
     title="API Libreria Virtual",
@@ -22,6 +28,7 @@ app.include_router(categorias_router)
 app.include_router(productos_router)
 app.include_router(clientes_router)
 app.include_router(usuarios_router)
+app.include_router(pedidos_router)
 
 if __name__ == "__main__":
     import uvicorn
