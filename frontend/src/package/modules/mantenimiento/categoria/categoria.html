@@ -1,1 +1,74 @@
-<p>categoria works!</p>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-3 py-3">
+            <p-table #dt [value]="pagedResponseModel.Results" [columns]="cols"
+                [globalFilterFields]="['Id','Descripcion']" [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions"
+                [lazy]="true" (onLazyLoad)="fnOnLazyLoadMaster($event)" [showCurrentPageReport]="true"
+                currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+                [rows]="pagedResponseModel.PageSize || 10"
+                [totalRecords]="pagedResponseModel.TotalNumberOfRecords || 0 "
+                styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
+                [(selection)]="selectedRows" selectionMode="single" [exportHeader]="'customExportHeader'"
+                [rowHover]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                        <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between py-2">
+
+                            <div>
+                                <button pButton pRipple
+                                    label="Agregar Nuevo" icon="pi pi-plus"
+                                    class="p-button-outlined p-button-primary mr-2"></button>
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 2rem">N°</th>
+                        <th style="min-width: 25rem">CATEGORIA</th>
+                        <th style="min-width: 20rem">DESCRIPCIÓN</th>
+                        <th style="min-width: 10rem">ESTADO</th>
+                        <th style="min-width: 6rem">ACCIONES</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-listaCargo let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>
+                            {{ listaCargo.cargo }}
+                        </td>
+                        <td>
+                            {{ listaCargo.descripcion }}
+                        </td>
+                        <td>
+                            <ng-container>
+
+                            </ng-container>
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-pencil" severity="info" [outlined]="true"
+                                pTooltip="Constancias" tooltipPosition="top" [rounded]="true" size="large"
+                                styleClass="border-2 mr-1" ></p-button>
+
+                            <p-button icon="pi pi-trash" severity="danger" [outlined]="true"
+                                pTooltip="Anexos" tooltipPosition="top" [rounded]="true" size="large"
+                                styleClass="border-2 mr-1" ></p-button>
+
+                        </td>
+
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14" class="text-center">No se encontraron registros para mostrar</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
