@@ -1,0 +1,24 @@
+:host ::ng-deep {
+  .badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .badge-success {
+    background-color: #c8e6c9;
+    color: #256029;
+  }
+
+  .badge-danger {
+    background-color: #ffcdd2;
+    color: #c63737;
+  }
+
+  .p-error {
+    display: block;
+    margin-top: 0.25rem;
+  }
+}

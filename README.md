@@ -85,6 +85,7 @@ pip install -r requirements.txt
 #### Ejecutar desde la terminal
 ```shell
 uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 #### Ejecutar desde Visual Code
 Configurar un launch.json

@@ -13,7 +13,7 @@ export default [
     },
     {
         path: 'cliente',
-        loadComponent: () => import('./cliente/cliente').then((c) => c.Cliente),
+        loadComponent: () => import('./cliente/cliente').then((c) => c.ClienteComponent),
         data: { breadcrumb: 'Clientes' }
     },
 ] as Routes;
