@@ -26,7 +26,7 @@ class CategoriaRepository:
                     categoria_guid=row['categoria_guid'],
                     categoria_nombre=row['categoria_nombre'],
                     categoria_descripcion=row['categoria_descripcion'],
-                    categoria_estado=row['categoria_estado']
+                    categoria_estado= row['categoria_estado']
                 ))
             return categorias
         except Error as e:

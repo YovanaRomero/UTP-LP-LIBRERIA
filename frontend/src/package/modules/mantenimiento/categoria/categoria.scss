@@ -1,0 +1,19 @@
+::ng-deep .chip-activo {
+    background-color: #1572e8 !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 11px !important;
+    margin: 0px !important;
+    padding: 3px 8px !important;
+    border-radius: 20px !important;
+}
+
+::ng-deep .chip-inactivo {
+    background-color: #f25961 !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 11px !important;
+    margin: 0px !important;
+    padding: 3px 8px !important;
+    border-radius: 20px !important;
+}

@@ -1,6 +1,6 @@
 export const environment = {
     services: {
-        SisCore: 'https://localhost:7226/api/',
+        SisCore: 'http://localhost:8000/',
     },
     enableBaseServiceLogs: true,
 };

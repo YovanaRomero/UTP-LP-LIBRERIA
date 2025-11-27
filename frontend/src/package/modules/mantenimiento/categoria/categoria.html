@@ -1,74 +1,122 @@
 
-<div class="grid">
-    <div class="col-12">
-        <div class="card px-3 py-3">
-            <p-table #dt [value]="pagedResponseModel.Results" [columns]="cols"
-                [globalFilterFields]="['Id','Descripcion']" [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions"
-                [lazy]="true" (onLazyLoad)="fnOnLazyLoadMaster($event)" [showCurrentPageReport]="true"
-                currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
-                [rows]="pagedResponseModel.PageSize || 10"
-                [totalRecords]="pagedResponseModel.TotalNumberOfRecords || 0 "
-                styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
-                [(selection)]="selectedRows" selectionMode="single" [exportHeader]="'customExportHeader'"
-                [rowHover]="true">
-                <ng-template pTemplate="caption">
-                    <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                        <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between py-2">
 
-                            <div>
-                                <button pButton pRipple
-                                    label="Agregar Nuevo" icon="pi pi-plus"
-                                    class="p-button-outlined p-button-primary mr-2"></button>
+<div class="card">
+        <p-toast></p-toast>
 
-                            </div>
+        <p-table #dt
+            [value]="categorias"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['Id','Descripcion']"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+            styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [(selection)]="selectedCategorias"
+            [rowHover]="true"
+            dataKey="cliente_id"
+            [loading]="loading"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
+            [showCurrentPageReport]="true"
+            selectionMode="single">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                    <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between py-2">
+
+                        <div>
+                            <button pButton pRipple
+                                label="Agregar Nuevo" icon="pi pi-plus"
+                                class="p-button-outlined p-button-primary mr-2" (click)="openNew()"></button>
+
                         </div>
                     </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="min-width: 2rem">N°</th>
-                        <th style="min-width: 25rem">CATEGORIA</th>
-                        <th style="min-width: 20rem">DESCRIPCIÓN</th>
-                        <th style="min-width: 10rem">ESTADO</th>
-                        <th style="min-width: 6rem">ACCIONES</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-listaCargo let-rowIndex="rowIndex">
-                    <tr>
-                        <td>
-                            {{ rowIndex + 1 }}
-                        </td>
-                        <td>
-                            {{ listaCargo.cargo }}
-                        </td>
-                        <td>
-                            {{ listaCargo.descripcion }}
-                        </td>
-                        <td>
-                            <ng-container>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: 6rem">ACCIONES</th>
+                    <th style="min-width: 2rem">N°</th>
+                    <th style="min-width: 25rem">CATEGORIA</th>
+                    <th style="min-width: 20rem">DESCRIPCIÓN</th>
+                    <th style="min-width: 10rem">ESTADO</th>
 
-                            </ng-container>
-                        </td>
-                        <td>
-                            <p-button icon="pi pi-pencil" severity="info" [outlined]="true"
-                                pTooltip="Constancias" tooltipPosition="top" [rounded]="true" size="large"
-                                styleClass="border-2 mr-1" ></p-button>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+                <tr>
+                    <td>
+                        <p-button icon="pi pi-pencil" severity="info" [outlined]="true"
+                            pTooltip="Editar" tooltipPosition="top" [rounded]="true" size="large"
+                            styleClass="border-2 mr-1" (click)="editCategoria(row)"></p-button>
 
-                            <p-button icon="pi pi-trash" severity="danger" [outlined]="true"
-                                pTooltip="Anexos" tooltipPosition="top" [rounded]="true" size="large"
-                                styleClass="border-2 mr-1" ></p-button>
+                        <p-button icon="pi pi-trash" severity="danger" [outlined]="true"
+                            pTooltip="Eliminar" tooltipPosition="top" [rounded]="true" size="large"
+                            styleClass="border-2 mr-1" (click)="deleteCategoria(row)" ></p-button>
+                    </td>
+                    <td>
+                        {{ rowIndex + 1 }}
+                    </td>
+                    <td>
+                        {{ row.categoria_nombre  | uppercase  }}
+                    </td>
+                    <td>
+                        {{ row.categoria_descripcion  | uppercase }}
+                    </td>
+                    <td>
+                        <ng-container>
+                                <p-chip [label]="row.categoria_estado === 1 ? 'Activo' : 'Inactivo'" [styleClass]="getChip(row.categoria_estado)">
+                                </p-chip>
+                        </ng-container>
+                    </td>
+                </tr>
+            </ng-template>
 
-                        </td>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="14" class="text-center">No se encontraron registros para mostrar</td>
+                </tr>
+            </ng-template>
+        </p-table>
+ </div>
 
-                    </tr>
-                </ng-template>
+ <p-dialog
+  [(visible)]="categoriaDialog"
+  [style]="{ width: '550px' , 'margin': '15px' }"
+  [header]="categoria.categoria_id ? 'Editar Categoria' : 'Nueva Categoria'"
+  [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+        <div class="p-fluid grid formgrid">
 
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="14" class="text-center">No se encontraron registros para mostrar</td>
-                    </tr>
-                </ng-template>
-            </p-table>
+            <div class="field">
+                <label for="categoria_nombre">Nombre de la Categoria <span style="color: red">*</span></label>
+                <input id="categoria_nombre" type="text" class="w-full" pInputText [(ngModel)]="categoria.categoria_nombre" [invalid]="!categoria.categoria_nombre" required autofocus />
+
+                @if (!categoria.categoria_nombre) {
+                    <p-message severity="error" variant="simple" size="small">El Nombre es requerido.</p-message>
+                }
+            </div>
+            <div class="field">
+                <label for="categoria_descripcion">Descripción <span style="color: red">*</span></label>
+                <input id="categoria_descripcion" type="text"class="w-full" pInputText  [(ngModel)]="categoria.categoria_descripcion" required/>
+                @if (!categoria.categoria_descripcion) {
+                    <p-message severity="error" variant="simple" size="small">La Descripción es requerida.</p-message>
+                }
+            </div>
+            <div class="field">
+                <label for="categoria_estado">Estado </label>
+                <p-select id="categoria_estado" [options]="estados" optionLabel="label" optionValue="value" class="w-full" appendTo="body"
+                    [(ngModel)]="categoria.categoria_estado" placeholder="Seleccione el estado">
+                </p-select>
+            </div>
         </div>
-    </div>
-</div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveCategoria()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+

@@ -1,7 +1,7 @@
 export interface CategoriaModel {
-    idCargo?: number;
-    cargo?: string;
-    descripcion?: string;
-    estadoActivo?: number;
-    displayEstadoActivo?: string;
+    categoria_id?: number;
+    categoria_nombre?: string;
+    categoria_descripcion?: string;
+    categoria_estado?: number;
+    categoria_guid?: string;
 }
