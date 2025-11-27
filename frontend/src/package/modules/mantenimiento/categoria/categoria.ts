@@ -144,7 +144,7 @@ export class Categoria implements OnInit {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'No se pudo eliminar el cliente',
+                detail: 'No se pudo eliminar el categoria',
                 life: 3000
               });
             }
