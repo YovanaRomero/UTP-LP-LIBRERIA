@@ -3,7 +3,7 @@
 
 ## 💪 Acerca del grupo
 - Romero Gutierrez Yovana Rosa 🌸
-- De la Cruz Chaveta Julio
+- De la Cruz Chavesta Julio
 - Rojas Leon Kelvin Marco Antonio 
 - Davila Sanchez Victor Daniel
 - Garcia Valderrama Augusto Manuel
@@ -14,8 +14,9 @@
 | Field                     | Type     | Description      |
 | :------------------------ | :------- | :--------------- |
 | `categoria_id`            | `integer` | **Required**. primary key  |
-| `categoria_nombre`        | `string` | nombre de categoria |
-| `categoria_descripcion`   | `string` | descripcion de categoria |
+| `categoria_nombre`        | `string`  | **Required**. nombre de categoria |
+| `categoria_descripcion`   | `string`  |**Required**. descripcion de categoria |
+| `categoria_estado`        | `string`  |**Required**. estado |
   
 
  Permite mostrar la información de las categorías, así como las operaciones:
@@ -117,9 +118,9 @@ ng serve -o
 #### 📷 Screenshot
 > Nota: puede verifique ingresando a [http://localhost:4200](http://localhost:4200)
 
-![Texto alternativo](testing/screenshot_login.png).
-![Texto alternativo](testing/screenshot_frontend.png).
-
+![Login](testing/screenshot_login.png).
+![Home](testing/screenshot_frontend.png).
+![Mantenimiento Categorias](testing/screenshot_categorias.png).
 
 ## License
 
