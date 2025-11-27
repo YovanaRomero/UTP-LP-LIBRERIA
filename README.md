@@ -121,6 +121,7 @@ ng serve -o
 ![Login](testing/screenshot_login.png).
 ![Home](testing/screenshot_frontend.png).
 ![Mantenimiento Categorias](testing/screenshot_categorias.png).
+![Mantenimiento Clientes](testing/screenshot_clientes.png).
 
 ## License
 

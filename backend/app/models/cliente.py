@@ -4,7 +4,7 @@ from typing import Optional
 
 class ClienteBase(BaseModel):
     cliente_dni: str
-    cleinte_nombres: str
+    cliente_nombres: str
     cliente_apellidos: str
     cliente_direccion: Optional[str] = None
     cliente_distrito: Optional[str] = None
@@ -19,7 +19,7 @@ class ClienteCreate(ClienteBase):
 
 class ClienteUpdate(BaseModel):
     cliente_dni: Optional[str] = None
-    cleinte_nombres: Optional[str] = None
+    cliente_nombres: Optional[str] = None
     cliente_apellidos: Optional[str] = None
     cliente_direccion: Optional[str] = None
     cliente_distrito: Optional[str] = None

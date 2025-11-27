@@ -32,7 +32,7 @@ import { Cliente } from './cliente.model';
 })
 export class ClienteComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
-  
+
   clientes: Cliente[] = [];
   clienteDialog: boolean = false;
   cliente: Cliente = {} as Cliente;
@@ -85,7 +85,7 @@ export class ClienteComponent implements OnInit {
 
   deleteCliente(cliente: Cliente): void {
     this.confirmationService.confirm({
-      message: `¿Está seguro de eliminar al cliente ${cliente.cleinte_nombres} ${cliente.cliente_apellidos}?`,
+      message: `¿Está seguro de eliminar al cliente ${cliente.cliente_nombres} ${cliente.cliente_apellidos}?`,
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -122,7 +122,7 @@ export class ClienteComponent implements OnInit {
   saveCliente(): void {
     this.submitted = true;
 
-    if (this.cliente.cliente_dni?.trim() && this.cliente.cleinte_nombres?.trim()) {
+    if (this.cliente.cliente_dni?.trim() && this.cliente.cliente_nombres?.trim()) {
       if (this.isEditMode && this.cliente.cliente_id) {
         this.clienteService.update(this.cliente.cliente_id, this.cliente).subscribe({
           next: (data) => {

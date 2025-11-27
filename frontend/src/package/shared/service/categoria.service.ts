@@ -1,18 +1,14 @@
 import { Injectable } from "@angular/core";
-import { IBaseService } from "@/shared/service/ibase.service";
 import { environment } from "src/environments/environment";
-import { HttpResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpClient } from '@angular/common/http';
 //Models
 import { CategoriaModel } from "@/shared/models/categoria.model";
 //Services
-import { BaseService } from "@/shared/service/base.service";
 
 @Injectable({
     providedIn: 'root'
 })
-
 
 export class CategoriaService {
 
@@ -38,9 +34,5 @@ export class CategoriaService {
 
     delete(id: number): Observable<void> {
         return this.http.delete<void>(`${this.baseUrl}/${id}`);
-    }
-
-    search(termino: string): Observable<CategoriaModel[]> {
-        return this.http.get<CategoriaModel[]>(`${this.baseUrl}/search?q=${termino}`);
     }
 }

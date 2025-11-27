@@ -2,7 +2,7 @@ export interface Cliente {
   cliente_id?: number;
   cliente_guid?: string;
   cliente_dni: string;
-  cleinte_nombres: string;
+  cliente_nombres: string;
   cliente_apellidos: string;
   cliente_direccion?: string;
   cliente_distrito?: string;
@@ -13,7 +13,7 @@ export interface Cliente {
 
 export interface ClienteCreate {
   cliente_dni: string;
-  cleinte_nombres: string;
+  cliente_nombres: string;
   cliente_apellidos: string;
   cliente_direccion?: string;
   cliente_distrito?: string;
@@ -24,7 +24,7 @@ export interface ClienteCreate {
 
 export interface ClienteUpdate {
   cliente_dni?: string;
-  cleinte_nombres?: string;
+  cliente_nombres?: string;
   cliente_apellidos?: string;
   cliente_direccion?: string;
   cliente_distrito?: string;

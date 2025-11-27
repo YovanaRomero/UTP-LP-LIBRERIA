@@ -16,7 +16,7 @@ class ClienteRepository:
         try:
             cursor = connection.cursor(dictionary=True)
             query = """
-                SELECT cliente_id, cliente_guid, cliente_dni, cleinte_nombres, 
+                SELECT cliente_id, cliente_guid, cliente_dni, cliente_nombres, 
                        cliente_apellidos, cliente_direccion, cliente_distrito, 
                        cliente_correo, cliente_celular, cliente_estado FROM cliente
             """
@@ -29,7 +29,7 @@ class ClienteRepository:
                     cliente_id=row['cliente_id'],
                     cliente_guid=row['cliente_guid'],
                     cliente_dni=row['cliente_dni'],
-                    cleinte_nombres=row['cleinte_nombres'],
+                    cliente_nombres=row['cliente_nombres'],
                     cliente_apellidos=row['cliente_apellidos'],
                     cliente_direccion=row['cliente_direccion'],
                     cliente_distrito=row['cliente_distrito'],
@@ -54,7 +54,7 @@ class ClienteRepository:
         try:
             cursor = connection.cursor(dictionary=True)
             query = """
-                SELECT cliente_id, cliente_guid, cliente_dni, cleinte_nombres, 
+                SELECT cliente_id, cliente_guid, cliente_dni, cliente_nombres, 
                        cliente_apellidos, cliente_direccion, cliente_distrito, 
                        cliente_correo, cliente_celular, cliente_estado FROM cliente 
                 WHERE cliente_id = %s
@@ -67,7 +67,7 @@ class ClienteRepository:
                     cliente_id=result['cliente_id'],
                     cliente_guid=result['cliente_guid'],
                     cliente_dni=result['cliente_dni'],
-                    cleinte_nombres=result['cleinte_nombres'],
+                    cliente_nombres=result['cliente_nombres'],
                     cliente_apellidos=result['cliente_apellidos'],
                     cliente_direccion=result['cliente_direccion'],
                     cliente_distrito=result['cliente_distrito'],
@@ -92,14 +92,14 @@ class ClienteRepository:
         try:
             cursor = connection.cursor()
             query = """
-                INSERT INTO cliente (cliente_guid, cliente_dni, cleinte_nombres, 
+                INSERT INTO cliente (cliente_guid, cliente_dni, cliente_nombres, 
                                     cliente_apellidos, cliente_direccion, cliente_distrito, 
                                     cliente_correo, cliente_celular, cliente_estado) 
                 VALUES (UUID(), %s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(query, (
                 cliente.cliente_dni,
-                cliente.cleinte_nombres,
+                cliente.cliente_nombres,
                 cliente.cliente_apellidos,
                 cliente.cliente_direccion,
                 cliente.cliente_distrito,
@@ -136,9 +136,9 @@ class ClienteRepository:
                 update_fields.append("cliente_dni = %s")
                 values.append(cliente.cliente_dni)
 
-            if cliente.cleinte_nombres is not None:
-                update_fields.append("cleinte_nombres = %s")
-                values.append(cliente.cleinte_nombres)
+            if cliente.cliente_nombres is not None:
+                update_fields.append("cliente_nombres = %s")
+                values.append(cliente.cliente_nombres)
 
             if cliente.cliente_apellidos is not None:
                 update_fields.append("cliente_apellidos = %s")
