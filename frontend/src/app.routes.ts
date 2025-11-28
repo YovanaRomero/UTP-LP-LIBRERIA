@@ -14,7 +14,7 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'modulos',
-                loadChildren: () => import('@/modules/modules.routes'),
+                loadChildren: () => import('@/modules/modules.routes').then(m => m.default),
                 data: { breadcrumb: 'Módulos' },
             }
         ],
