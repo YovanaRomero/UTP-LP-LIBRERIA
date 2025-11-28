@@ -41,10 +41,10 @@ import { CategoriaService } from '@/shared/service/categoria.service';
         MessageModule
     ],
     providers: [ConfirmationService, MessageService],
-    templateUrl: './categoria.html',
-    styleUrl: './categoria.scss'
+    templateUrl: './categoria.component.html',
+    styleUrls: ['./categoria.component.scss']
 })
-export class Categoria implements OnInit {
+export class CategoriaComponent implements OnInit {
 
     @ViewChild('dt') dt!: Table;
 

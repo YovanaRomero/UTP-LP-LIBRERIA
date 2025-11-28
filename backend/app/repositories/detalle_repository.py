@@ -4,8 +4,12 @@ from ..models import Detalle, DetalleCreate, DetalleUpdate
 
 
 class DetalleRepository:
+
+    # ===========================
+    # OBTENER DETALLES POR PEDIDO
+    # ===========================
     @staticmethod
-    def get_by_pedido(detalle_pedido_id: int):
+    def get_by_pedido(pedido_id: int):
         connection = db.get_connection()
         if connection is None:
             return []
@@ -15,29 +19,27 @@ class DetalleRepository:
             query = """
                 SELECT detalle_pedido_id, detalle_producto_id, detalle_secuencia,
                        detalle_producto_precio, detalle_cantidad
-                FROM detalle WHERE detalle_pedido_id = %s
+                FROM detalle
+                WHERE detalle_pedido_id = %s
+                ORDER BY detalle_secuencia ASC
             """
-            cursor.execute(query, (detalle_pedido_id,))
+            cursor.execute(query, (pedido_id,))
             rows = cursor.fetchall()
 
-            detalles = []
-            for r in rows:
-                detalles.append(Detalle(
-                    detalle_pedido_id=r['detalle_pedido_id'],
-                    detalle_producto_id=r['detalle_producto_id'],
-                    detalle_secuencia=r.get('detalle_secuencia'),
-                    detalle_producto_precio=r.get('detalle_producto_precio'),
-                    detalle_cantidad=r.get('detalle_cantidad')
-                ))
-            return detalles
+            return [Detalle(**r) for r in rows]
+
         except Error as e:
             print(f"Error al obtener detalles: {e}")
             return []
+
         finally:
             cursor.close()
 
+    # ===========================
+    # CREAR DETALLE
+    # ===========================
     @staticmethod
-    def create(detalle_pedido_id: int, detalle: DetalleCreate):
+    def create(pedido_id: int, detalle: DetalleCreate, secuencia: int):
         connection = db.get_connection()
         if connection is None:
             return None
@@ -50,26 +52,54 @@ class DetalleRepository:
                 VALUES (%s, %s, %s, %s, %s)
             """
             cursor.execute(query, (
-                detalle_pedido_id,
+                pedido_id,
                 detalle.detalle_producto_id,
-                detalle.detalle_secuencia,
+                secuencia,
                 detalle.detalle_producto_precio,
-                detalle.detalle_cantidad,
+                detalle.detalle_cantidad
             ))
             connection.commit()
-            return DetalleRepository.get_by_pedido(detalle_pedido_id)
+            return True
+
         except Error as e:
             print(f"Error al crear detalle: {e}")
             connection.rollback()
-            return None
+            return False
+
         finally:
             cursor.close()
 
+    # ===========================
+    # ELIMINAR TODOS LOS DETALLES DE UN PEDIDO
+    # ===========================
     @staticmethod
-    def update(detalle_pedido_id: int, detalle_producto_id: int, detalle: DetalleUpdate):
+    def delete_all_of_pedido(pedido_id: int):
         connection = db.get_connection()
         if connection is None:
-            return None
+            return False
+
+        try:
+            cursor = connection.cursor()
+            cursor.execute("DELETE FROM detalle WHERE detalle_pedido_id = %s", (pedido_id,))
+            connection.commit()
+            return True
+
+        except Error as e:
+            print(f"Error al eliminar detalles: {e}")
+            connection.rollback()
+            return False
+
+        finally:
+            cursor.close()
+
+    # ===========================
+    # ACTUALIZAR DETALLE
+    # ===========================
+    @staticmethod
+    def update(pedido_id: int, producto_id: int, detalle: DetalleUpdate):
+        connection = db.get_connection()
+        if connection is None:
+            return False
 
         try:
             cursor = connection.cursor()
@@ -79,46 +109,59 @@ class DetalleRepository:
             if detalle.detalle_secuencia is not None:
                 update_fields.append("detalle_secuencia = %s")
                 values.append(detalle.detalle_secuencia)
+
             if detalle.detalle_producto_precio is not None:
                 update_fields.append("detalle_producto_precio = %s")
                 values.append(detalle.detalle_producto_precio)
+
             if detalle.detalle_cantidad is not None:
                 update_fields.append("detalle_cantidad = %s")
                 values.append(detalle.detalle_cantidad)
 
             if not update_fields:
-                return None
+                return False
 
-            values.extend([detalle_pedido_id, detalle_producto_id])
-            query = f"UPDATE detalle SET {', '.join(update_fields)} WHERE detalle_pedido_id = %s AND detalle_producto_id = %s"
+            values.extend([pedido_id, producto_id])
+            query = f"""
+                UPDATE detalle
+                SET {', '.join(update_fields)}
+                WHERE detalle_pedido_id = %s AND detalle_producto_id = %s
+            """
             cursor.execute(query, tuple(values))
             connection.commit()
+            return cursor.rowcount > 0
 
-            if cursor.rowcount == 0:
-                return None
-            return DetalleRepository.get_by_pedido(detalle_pedido_id)
         except Error as e:
             print(f"Error al actualizar detalle: {e}")
             connection.rollback()
-            return None
+            return False
+
         finally:
             cursor.close()
 
+    # ===========================
+    # ELIMINAR DETALLE ESPECÍFICO
+    # ===========================
     @staticmethod
-    def delete(detalle_pedido_id: int, detalle_producto_id: int):
+    def delete(pedido_id: int, producto_id: int):
         connection = db.get_connection()
         if connection is None:
             return False
 
         try:
             cursor = connection.cursor()
-            query = "DELETE FROM detalle WHERE detalle_pedido_id = %s AND detalle_producto_id = %s"
-            cursor.execute(query, (detalle_pedido_id, detalle_producto_id))
+            query = """
+                DELETE FROM detalle
+                WHERE detalle_pedido_id = %s AND detalle_producto_id = %s
+            """
+            cursor.execute(query, (pedido_id, producto_id))
             connection.commit()
             return cursor.rowcount > 0
+
         except Error as e:
             print(f"Error al eliminar detalle: {e}")
             connection.rollback()
             return False
+
         finally:
             cursor.close()

@@ -1,0 +1,72 @@
+<div class="container">
+
+  <h2 class="titulo">🧾 Crear Pedido</h2>
+
+  <!-- MENSAJE DE ERROR -->
+  <div *ngIf="mensajeError" class="alert alert-error">
+    {{ mensajeError }}
+  </div>
+
+  <!-- MENSAJE DE ÉXITO -->
+  <div *ngIf="pedidoCreado" class="alert alert-success">
+    Pedido creado correctamente.  
+    <strong>Número: {{ pedidoNumero }}</strong>
+  </div>
+
+  <!-- CLIENTE -->
+  <div class="card">
+    <h3>Cliente</h3>
+    <select [(ngModel)]="clienteSeleccionado" class="select">
+      <option value="">Seleccione un cliente</option>
+      <option *ngFor="let c of clientes" [value]="c.cliente_id">
+        {{ c.nombres }} {{ c.apellidos }}
+      </option>
+    </select>
+  </div>
+
+  <!-- CARRITO -->
+  <div class="card">
+    <h3>Carrito de Productos</h3>
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cant.</th>
+          <th>Subtotal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of carrito; let i = index">
+          <td>{{ item.nombre }}</td>
+          <td>S/ {{ item.precio }}</td>
+          <td>
+            <input type="number" [(ngModel)]="item.cantidad" (change)="cambiarCantidad(item)" class="inp-cant" min="1" />
+          </td>
+          <td>S/ {{ item.precio * item.cantidad }}</td>
+          <td>
+            <button class="btn-eliminar" (click)="eliminarProducto(i)">🗑️</button>
+          </td>
+        </tr>
+        <tr *ngIf="carrito.length === 0">
+          <td colspan="5" class="empty">El carrito está vacío</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="total">
+      <strong>Subtotal: S/ {{ subtotal }}</strong><br>
+      <strong>IGV (18%): S/ {{ igv }}</strong><br>
+      <strong>Total: S/ {{ total }}</strong>
+    </div>
+  </div>
+
+  <!-- BOTÓN CREAR PEDIDO -->
+  <div class="acciones">
+    <button class="btn" (click)="crearPedido()">
+      Crear Pedido
+    </button>
+  </div>
+
+</div>

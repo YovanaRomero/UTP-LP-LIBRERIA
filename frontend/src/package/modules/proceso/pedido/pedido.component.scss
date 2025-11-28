@@ -1,0 +1,107 @@
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.titulo {
+  margin-bottom: 15px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+}
+
+.total {
+  text-align: right;
+  font-size: 18px;
+  padding-top: 10px;
+}
+
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.alert-error {
+  background: #ffe0e0;
+  color: #c62828;
+}
+
+.alert-success {
+  background: #e0ffe5;
+  color: #2e7d32;
+}
+
+.inp-cant {
+  width: 60px;
+}
+
+.btn {
+  background: #1976d2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+
+  &:hover {
+     opacity: .9;
+     cursor: pointer;
+  }
+}
+
+
+/* ==========================
+   Botón eliminar producto
+========================== */
+.btn-eliminar {
+  background-color: #ff4d4f;  // rojo suave
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+
+  &:hover {
+    background-color: #ff1a1a;  // rojo más intenso al pasar el mouse
+    transform: scale(1.1);      // pequeño efecto de zoom
+  }
+
+  &:active {
+    transform: scale(0.95);     // efecto al presionar
+  }
+}
+
+/* Ajuste de la tabla para que no se vea apretado */
+.tabla td, .tabla th {
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.tabla .empty {
+  font-style: italic;
+  color: #777;
+}

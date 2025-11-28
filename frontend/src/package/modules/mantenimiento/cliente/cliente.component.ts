@@ -27,8 +27,8 @@ import { Cliente } from './cliente.model';
     ToastModule
   ],
   providers: [ConfirmationService, MessageService],
-  templateUrl: './cliente.html',
-  styleUrl: './cliente.scss',
+  templateUrl: './cliente.component.html',
+  styleUrls: ['./cliente.component.scss',]
 })
 export class ClienteComponent implements OnInit {
   @ViewChild('dt') dt!: Table;

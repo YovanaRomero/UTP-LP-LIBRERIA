@@ -3,4 +3,5 @@ export const environment = {
         SisCore: 'http://localhost:8000/',
     },
     enableBaseServiceLogs: true
+    
 };
