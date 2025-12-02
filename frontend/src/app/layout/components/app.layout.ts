@@ -11,14 +11,7 @@ import { AppProfileSidebar } from './app.profilesidebar';
 @Component({
     selector: 'app-layout',
     standalone: true,
-    imports: [
-        CommonModule,
-        AppTopbar,
-        AppSidebar,
-        RouterModule,
-        AppConfigurator,
-        AppProfileSidebar,
-    ],
+    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppConfigurator, AppProfileSidebar],
     template: `<div class="layout-container" [ngClass]="containerClass">
         <div app-sidebar></div>
         <div class="layout-content-wrapper">
@@ -30,7 +23,7 @@ import { AppProfileSidebar } from './app.profilesidebar';
         <div app-profilesidebar></div>
         <app-configurator></app-configurator>
         <div class="layout-mask animate-fadein"></div>
-    </div> `,
+    </div> `
 })
 export class AppLayout {
     overlayMenuOpenSubscription: Subscription;
@@ -113,15 +106,7 @@ export class AppLayout {
         if (document.body.classList) {
             document.body.classList.remove('blocked-scroll');
         } else {
-            document.body.className = document.body.className.replace(
-                new RegExp(
-                    '(^|\\b)' +
-                        'blocked-scroll'.split(' ').join('|') +
-                        '(\\b|$)',
-                    'gi',
-                ),
-                ' ',
-            );
+            document.body.className = document.body.className.replace(new RegExp('(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
         }
     }
 
@@ -133,8 +118,7 @@ export class AppLayout {
             'layout-light': !layoutConfig.darkTheme,
             'layout-dark': layoutConfig.darkTheme,
             'layout-colorscheme-menu': layoutConfig.menuTheme === 'colorScheme',
-            'layout-primarycolor-menu':
-                layoutConfig.menuTheme === 'primaryColor',
+            'layout-primarycolor-menu': layoutConfig.menuTheme === 'primaryColor',
             'layout-transparent-menu': layoutConfig.menuTheme === 'transparent',
             'layout-overlay': layoutConfig.menuMode === 'overlay',
             'layout-static': layoutConfig.menuMode === 'static',
@@ -143,13 +127,11 @@ export class AppLayout {
             'layout-horizontal': layoutConfig.menuMode === 'horizontal',
             'layout-reveal': layoutConfig.menuMode === 'reveal',
             'layout-drawer': layoutConfig.menuMode === 'drawer',
-            'layout-static-inactive':
-                layoutState.staticMenuDesktopInactive &&
-                layoutConfig.menuMode === 'static',
+            'layout-static-inactive': layoutState.staticMenuDesktopInactive && layoutConfig.menuMode === 'static',
             'layout-overlay-active': layoutState.overlayMenuActive,
             'layout-mobile-active': layoutState.staticMenuMobileActive,
             'layout-sidebar-active': layoutState.sidebarActive,
-            'layout-sidebar-anchored': layoutState.anchored,
+            'layout-sidebar-anchored': layoutState.anchored
         };
     }
 

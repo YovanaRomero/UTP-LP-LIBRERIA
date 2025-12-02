@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -25,7 +25,7 @@ import { InputIconModule } from 'primeng/inputicon';
             <ul class="topbar-menu">
                 <li class="topbar-search">
                     <div class="ml-3">
-                        <span class="mb-2 font-semibold">Romero Gutierrez Yovana</span>
+                        <span class="mb-2 font-semibold">{{usuarioLogeado()}}</span>
                         <p class="text-color-secondary m-0">FullStack</p>
                     </div>
                 </li>
@@ -40,8 +40,13 @@ import { InputIconModule } from 'primeng/inputicon';
 })
 export class AppTopbar {
     @ViewChild('menubutton') menuButton!: ElementRef;
+    usuarioLogeado = signal("")
 
     constructor(public layoutService: LayoutService) {}
+
+    ngOnInit(): void {
+        this.usuarioLogeado.set(localStorage.getItem("usuario_descripcion") ?? "Romero Gutierrez Yovana")
+    }
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();

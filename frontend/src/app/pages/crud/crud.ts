@@ -18,7 +18,7 @@ import { TagModule } from 'primeng/tag';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Product, ProductService } from '@/pages/service/product.service';
+import { Product, ProductService } from '../../services/product.service';
 
 interface Column {
     field: string;
@@ -97,29 +97,23 @@ interface ExportColumn {
                             <p-tableHeaderCheckbox />
                         </th>
                         <th style="min-width: 16rem" pSortableColumn="code">
-                            <span class="flex items-center gap-2">Code
-                            <p-sortIcon field="code" /></span>
+                            <span class="flex items-center gap-2">Code <p-sortIcon field="code" /></span>
                         </th>
                         <th pSortableColumn="name" style="min-width:16rem">
-                            <span class="flex items-center gap-2">Name
-                            <p-sortIcon field="name" /></span>
+                            <span class="flex items-center gap-2">Name <p-sortIcon field="name" /></span>
                         </th>
                         <th>Image</th>
                         <th pSortableColumn="price" style="min-width: 8rem">
-                            <span class="flex items-center gap-2">Price
-                            <p-sortIcon field="price" /></span>
+                            <span class="flex items-center gap-2">Price <p-sortIcon field="price" /></span>
                         </th>
                         <th pSortableColumn="category" style="min-width:10rem">
-                            <span class="flex items-center gap-2">Category
-                            <p-sortIcon field="category" /></span>
+                            <span class="flex items-center gap-2">Category <p-sortIcon field="category" /></span>
                         </th>
                         <th pSortableColumn="rating" style="min-width: 12rem">
-                            <span class="flex items-center gap-2">Reviews
-                            <p-sortIcon field="rating" /></span>
+                            <span class="flex items-center gap-2">Reviews <p-sortIcon field="rating" /></span>
                         </th>
                         <th pSortableColumn="inventoryStatus" style="min-width: 12rem">
-                            <span class="flex items-center gap-2">Status
-                            <p-sortIcon field="inventoryStatus" /></span>
+                            <span class="flex items-center gap-2">Status <p-sortIcon field="inventoryStatus" /></span>
                         </th>
                         <th style="min-width: 12rem"></th>
                     </tr>
@@ -235,6 +229,8 @@ export class Crud implements OnInit {
     exportColumns!: ExportColumn[];
 
     cols!: Column[];
+
+
 
     constructor(
         private productService: ProductService,
