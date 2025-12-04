@@ -19,13 +19,13 @@ import { LayoutService } from '@/layout/service/layout.service';
             >
                 <span
                     class="block text-surface-900 dark:text-surface-0 font-bold text-4xl"
-                    >Modern, stylish and clean</span
+                    >Libreria Virtual 2.0.0</span
                 >
                 <span
                     class="block text-surface-700 dark:text-surface-100 text-lg"
-                    >The ultimate collection of design-agnostic, flexible and
-                    accessible UI Components.</span
+                    >Sistema de Libreria virtual, es un sistema en el cual se puede administrar</span
                 >
+                <!--
                 <ul class="flex flex-wrap gap-8 list-none p-0">
                     <li class="flex items-center">
                         <div
@@ -55,15 +55,17 @@ import { LayoutService } from '@/layout/service/layout.service';
                         >
                     </li>
                 </ul>
+                -->
                 <button
                     pButton
                     pRipple
                     type="button"
-                    label="Live Preview"
+                    label="Acceder Ahora"
                     icon="pi pi-arrow-right"
                     iconPos="right"
                     class="w-48"
                     outlined
+                    (click)="fnSignSingleOnSend()"
                 ></button>
             </div>
 
@@ -104,5 +106,9 @@ export class HomeWidget {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+    fnSignSingleOnSend(): void {
+        console.log('redireccionando a punku');
+        window.location.href = 'http://localhost:4200/auth/login';
     }
 }

@@ -1,9 +1,13 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
 import { BadgeModule } from 'primeng/badge';
 import { LayoutService } from '@/layout/service/layout.service';
-
+import { AuthService } from '@/pages/auth/auth.service';
+import { AuthenticationService } from '../../services/security/authentication.service';
+import { SweetAltert2Service } from '../../services/sweetaltert2.service';
+import { PunkuSesionModel } from '../../models/punku.model';
+import { LoggerService } from '../../services/logger.service';
 @Component({
     selector: '[app-profilesidebar]',
     imports: [
@@ -23,7 +27,7 @@ import { LayoutService } from '@/layout/service/layout.service';
                 <span class="mb-2 font-semibold">Welcome</span>
                 <span
                     class="text-surface-500 dark:text-surface-400 font-medium mb-8"
-                    >Romero Gutierrez Yovana</span
+                    >{{usuarioName()}}</span
                 >
 
                 <ul class="list-none m-0 p-0">
@@ -34,20 +38,19 @@ import { LayoutService } from '@/layout/service/layout.service';
                             </span>
                             <div class="ml-4">
                                 <span class="mb-2 font-semibold">Usuario</span>
-                                <p class="text-surface-500 dark:text-surface-400 m-0">Login: Romero Gutierrez Yovana</p>
+                                <p class="text-surface-500 dark:text-surface-400 m-0">Login: {{oUser.usuario_descripcion}}</p>
                                 <p class="text-surface-500 dark:text-surface-400 m-0">Rol Actual: FullStack</p>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a class="cursor-pointer flex mb-4 p-4 items-center border border-surface-200 dark:border-surface-700 rounded hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors duration-150">
+                        <a class="cursor-pointer flex mb-4 p-4 items-center border border-surface-200 dark:border-surface-700 rounded hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors duration-150" (click)="fnLogout()" >
                             <span>
-                                <i class="pi pi-power-off text-xl text-primary"></i>
+                                <i class="pi pi-power-off text-xl text-primary group-hover:text-white"></i>
                             </span>
                             <div class="ml-4">
-                                <span class="mb-2 font-semibold">Cerrar Sesión</span>
-                                <p class="text-surface-500 dark:text-surface-400 m-0">
-                                    13/11/2024 - 10:30 AM
+                                <span class="mb-2 font-semibold group-hover:text-white">Cerrar Sesión</span>
+                                <p class="text-surface-500 dark:text-surface-400 m-0 group-hover:text-white">
                                 </p>
                             </div>
                         </a>
@@ -58,7 +61,21 @@ import { LayoutService } from '@/layout/service/layout.service';
     `,
 })
 export class AppProfileSidebar {
-    constructor(public layoutService: LayoutService) {}
+
+    oUser: PunkuSesionModel;
+    authService = inject(AuthService)
+
+    usuarioLogeado = signal("")
+    usuarioName = signal("")
+
+    constructor(
+        private oLoggerService: LoggerService,
+        public layoutService: LayoutService,
+        public oAuthenticationService: AuthenticationService,
+        private oSweetAltert2Service: SweetAltert2Service) {
+            this.oLoggerService.logDebug('AppProfileSidebarComponent',this.oAuthenticationService.getUser());
+            this.oUser = oAuthenticationService.getUser();
+        }
 
     visible = computed(
         () => this.layoutService.layoutState().profileSidebarVisible,
@@ -69,5 +86,17 @@ export class AppProfileSidebar {
             ...state,
             profileSidebarVisible: false,
         }));
+    }
+
+    fnLogout(){
+        this.onDrawerHide();
+
+        this.oSweetAltert2Service.confirm('Salir','Desea cerrar el sistema.').then((result)=> {
+            if (result.isConfirmed) {
+                //this.oAuthenticationService.logout();
+                this.authService.logout()
+                window.close();
+            }
+        });
     }
 }

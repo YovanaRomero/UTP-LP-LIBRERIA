@@ -9,16 +9,10 @@ import { AppMenuitem } from './app.menuitem';
     imports: [CommonModule, AppMenuitem, RouterModule],
     template: `<ul class="layout-menu">
         <ng-container *ngFor="let item of model; let i = index">
-            <li
-                app-menuitem
-                *ngIf="!item.separator"
-                [item]="item"
-                [index]="i"
-                [root]="true"
-            ></li>
+            <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
             <li *ngIf="item.separator" class="menu-separator"></li>
         </ng-container>
-    </ul> `,
+    </ul> `
 })
 export class AppMenu {
     model: any[] = [];
@@ -32,9 +26,9 @@ export class AppMenu {
                     {
                         label: 'Pedidos',
                         icon: 'pi pi-fw pi-table',
-                        routerLink: ['/modulos/proceso/pedido'],
+                        routerLink: ['/modulos/proceso/pedido']
                     }
-                ],
+                ]
             },
             {
                 label: 'Mantenimiento',
@@ -43,20 +37,20 @@ export class AppMenu {
                     {
                         label: 'Categorias',
                         icon: 'pi pi-fw pi-list',
-                        routerLink: ['/modulos/mantenimiento/categoria'],
+                        routerLink: ['/modulos/mantenimiento/categoria']
                     },
                     {
                         label: 'Productos',
                         icon: 'pi pi-fw pi-check-square',
-                        routerLink: ['/modulos/mantenimiento/producto'],
+                        routerLink: ['/modulos/mantenimiento/producto']
                     },
                     {
                         label: 'Clientes',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/modulos/mantenimiento/cliente'],
+                        routerLink: ['/modulos/mantenimiento/cliente']
                     }
-                ],
-            },
+                ]
+            }
         ];
     }
 }

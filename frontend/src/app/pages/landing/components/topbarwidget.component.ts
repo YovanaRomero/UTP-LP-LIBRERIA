@@ -65,6 +65,12 @@ import { CommonModule } from '@angular/common';
                         </a>
                     </li>
 
+                    <li>
+                        <a routerLink="/auth/login" pStyleClass="#menu" enterFromClass="hidden" leaveToClass="hidden" pRipple class="flex m-0 md:ml-8 px-0 py-4 text-surface-900 dark:text-surface-0 font-medium leading-normal">
+                            <span>Login</span>
+                        </a>
+                    </li>
+
                     <li class="flex align-items-center">
                         <button pButton pRipple type="button" label="Buy Now" class="m-0 mt-4 md:mt-0 md:ml-8"></button>
                     </li>

@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { PedidoService } from '../service/pedido.service';
 import { ClientePedidoModel } from '../models/cliente.model';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-pedido',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,ButtonModule],
   templateUrl: './pedido.component.html',
   styleUrls: ['./pedido.component.scss'],
 })

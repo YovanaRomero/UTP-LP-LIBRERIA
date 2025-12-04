@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -8,7 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-
+import { PunkuSesionModel } from '../../models/punku.model';
+import { AuthenticationService } from '../../services/security/authentication.service';
 @Component({
     selector: '[app-topbar]',
     standalone: true,
@@ -25,7 +26,7 @@ import { InputIconModule } from 'primeng/inputicon';
             <ul class="topbar-menu">
                 <li class="topbar-search">
                     <div class="ml-3">
-                        <span class="mb-2 font-semibold">Romero Gutierrez Yovana</span>
+                        <span class="mb-2 font-semibold">{{oUser.usuario_descripcion}}</span>
                         <p class="text-color-secondary m-0">FullStack</p>
                     </div>
                 </li>
@@ -39,9 +40,17 @@ import { InputIconModule } from 'primeng/inputicon';
     </div>`
 })
 export class AppTopbar {
+    oUser: PunkuSesionModel;
     @ViewChild('menubutton') menuButton!: ElementRef;
+    usuarioLogeado = signal("")
 
-    constructor(public layoutService: LayoutService) {}
+    constructor(public layoutService: LayoutService, public oAuthenticationService: AuthenticationService) {
+        this.oUser = oAuthenticationService.getUser();
+    }
+
+    ngOnInit(): void {
+        this.usuarioLogeado.set(localStorage.getItem("usuario_descripcion") ?? "Romero Gutierrez Yovana")
+    }
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();
