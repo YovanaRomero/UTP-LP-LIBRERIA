@@ -14,7 +14,7 @@ import { FooterWidget } from './components/footerwidget';
 @Component({
     selector: 'app-landing',
     standalone: true,
-    imports: [RouterModule, ButtonModule, AppConfigurator, TopbarWidget, HomeWidget, AppsWidget, PricingWidget, FeaturesWidget, FooterWidget],
+    imports: [RouterModule, ButtonModule, AppConfigurator, HomeWidget ],
     template: `
         <div class="relative overflow-hidden flex flex-col justify-center">
             <div class="bg-circle opacity-50" [style]="{ top: '-200px', left: '-700px' }"></div>
@@ -27,13 +27,8 @@ import { FooterWidget } from './components/footerwidget';
                 }"
             ></div>
             <div class="landing-wrapper">
-                <topbar-widget />
                 <div class="py-6 px-6 mx-0 md:mx-12 lg:mx-20 lg:px-20 z-20">
                     <home-widget />
-                    <apps-widget />
-                    <pricing-widget />
-                    <features-widget />
-                    <footer-widget />
                 </div>
             </div>
         </div>
