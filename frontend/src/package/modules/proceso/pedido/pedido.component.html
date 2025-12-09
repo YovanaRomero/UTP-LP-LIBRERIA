@@ -160,7 +160,7 @@
           <tr>
             <td>{{ pedido.pedido_id }}</td>
             <td><strong>{{ pedido.pedido_numero }}</strong></td>
-            <td>ID: {{ pedido.cliente_cliente_id }}</td>
+            <td>{{ pedido.cliente?.cliente_nombres }} {{ pedido.cliente?.cliente_apellidos }}</td>
             <td>{{ pedido.pedido_fecha_registro | date:'dd/MM/yyyy HH:mm' }}</td>
             <td><strong>S/ {{ pedido.pedido_total?.toFixed(2) }}</strong></td>
             <td>

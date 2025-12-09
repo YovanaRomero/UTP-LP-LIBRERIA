@@ -33,7 +33,14 @@ class CategoriaRepository:
             print(f"Error al obtener categorías: {e}")
             return []
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def get_by_id(categoria_id: int):
@@ -61,7 +68,14 @@ class CategoriaRepository:
             print(f"Error al obtener categoría: {e}")
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def create(categoria: CategoriaCreate):
@@ -87,7 +101,14 @@ class CategoriaRepository:
             connection.rollback()
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def update(categoria_id: int, categoria: CategoriaUpdate):
@@ -134,7 +155,14 @@ class CategoriaRepository:
             connection.rollback()
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def delete(categoria_id: int):
@@ -155,4 +183,11 @@ class CategoriaRepository:
             connection.rollback()
             return False
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass

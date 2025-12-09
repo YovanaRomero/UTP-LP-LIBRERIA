@@ -89,6 +89,9 @@ class PedidoService:
         pedido_in.pedido_igv = float(igv)
         pedido_in.pedido_total = float(total)
         pedido_in.pedido_estado = pedido_in.pedido_estado or 1  # Registrado
+        # Asignar fecha de registro actual si no viene en la petición
+        if not pedido_in.pedido_fecha_registro:
+            pedido_in.pedido_fecha_registro = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # 5) Crear pedido en BD
         pedido_creado = PedidoRepository.create(pedido_in)
@@ -126,7 +129,9 @@ class PedidoService:
     # ===========================
     @staticmethod
     def get_all():
-        return PedidoRepository.get_all()
+        # Usa get_all_lightweight() para mejor performance en listados
+        # (trae cliente pero no detalles por cada pedido)
+        return PedidoRepository.get_all_lightweight()
 
     # ===========================
     # ACTUALIZAR PEDIDO

@@ -1,5 +1,18 @@
 import { DetalleModel } from './detalle.model';
 
+export interface ClienteInfo {
+  cliente_id: number;
+  cliente_guid?: string;
+  cliente_dni: string;
+  cliente_nombres: string;
+  cliente_apellidos: string;
+  cliente_direccion?: string;
+  cliente_distrito?: string;
+  cliente_correo?: string;
+  cliente_celular?: string;
+  cliente_estado?: number;
+}
+
 export interface PedidoRequest {
   cliente_cliente_id: number;
   pedido_subtotal: number;
@@ -26,4 +39,5 @@ export interface PedidoModel {
   pedido_igv: number;
   pedido_total: number;
   pedido_estado?: number;
+  cliente?: ClienteInfo;
 }

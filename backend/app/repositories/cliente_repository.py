@@ -42,7 +42,14 @@ class ClienteRepository:
             print(f"Error al obtener clientes: {e}")
             return []
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def get_by_id(cliente_id: int):
@@ -80,7 +87,14 @@ class ClienteRepository:
             print(f"Error al obtener cliente: {e}")
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def create(cliente: ClienteCreate):
@@ -116,7 +130,14 @@ class ClienteRepository:
             connection.rollback()
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def update(cliente_id: int, cliente: ClienteUpdate):
@@ -183,7 +204,14 @@ class ClienteRepository:
             connection.rollback()
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     @staticmethod
     def delete(cliente_id: int):
@@ -204,4 +232,11 @@ class ClienteRepository:
             connection.rollback()
             return False
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass

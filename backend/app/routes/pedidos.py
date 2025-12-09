@@ -11,7 +11,7 @@ router = APIRouter(prefix="/pedidos", tags=["pedidos"])
 # ==========================
 @router.get("/", response_model=List[Pedido])
 def listar_pedidos():
-    return PedidoService.listar_pedidos()
+    return PedidoService.get_all()
 
 
 # ==========================
@@ -19,7 +19,7 @@ def listar_pedidos():
 # ==========================
 @router.get("/{pedido_id}", response_model=Pedido)
 def obtener_pedido(pedido_id: int):
-    pedido = PedidoService.obtener_pedido(pedido_id)
+    pedido = PedidoService.get_by_id(pedido_id)
     if pedido is None:
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
     return pedido
@@ -41,7 +41,7 @@ def crear_pedido(pedido: PedidoCreate):
 # ==========================
 @router.put("/{pedido_id}", response_model=Pedido)
 def actualizar_pedido(pedido_id: int, pedido: PedidoUpdate):
-    actualizado = PedidoService.actualizar_pedido(pedido_id, pedido)
+    actualizado = PedidoService.update(pedido_id, pedido)
     if actualizado is None:
         raise HTTPException(status_code=404, detail="Pedido no encontrado o no actualizado")
     return actualizado
@@ -52,7 +52,7 @@ def actualizar_pedido(pedido_id: int, pedido: PedidoUpdate):
 # ==========================
 @router.delete("/{pedido_id}")
 def eliminar_pedido(pedido_id: int):
-    ok = PedidoService.eliminar_pedido(pedido_id)
+    ok = PedidoService.delete(pedido_id)
     if not ok:
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
     return {"message": "Pedido eliminado correctamente"}

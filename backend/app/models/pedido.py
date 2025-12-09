@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from .detalle import Detalle, DetalleCreate
+from .cliente import Cliente
 
 
 # ==========================
@@ -51,6 +52,7 @@ class PedidoUpdate(BaseModel):
 class Pedido(PedidoBase):
     pedido_id: int
     pedido_guid: Optional[str] = None
+    cliente: Optional[Cliente] = None
     detalles: Optional[List[Detalle]] = []
 
     class Config:

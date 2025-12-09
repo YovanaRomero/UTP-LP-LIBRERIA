@@ -33,7 +33,14 @@ class DetalleRepository:
             return []
 
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ===========================
     # CREAR DETALLE
@@ -67,7 +74,14 @@ class DetalleRepository:
             return False
 
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ===========================
     # ELIMINAR TODOS LOS DETALLES DE UN PEDIDO
@@ -90,7 +104,14 @@ class DetalleRepository:
             return False
 
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ===========================
     # ACTUALIZAR DETALLE
@@ -137,7 +158,14 @@ class DetalleRepository:
             return False
 
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ===========================
     # ELIMINAR DETALLE ESPECÍFICO
@@ -164,4 +192,11 @@ class DetalleRepository:
             return False
 
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass

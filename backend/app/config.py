@@ -14,6 +14,8 @@ class Settings:
     DB_NAME: str = os.getenv("DB_NAME", "salesdb")
     DB_USER: str = os.getenv("DB_USER", "root")
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "my801521my")
+    # Pool de conexiones
+    DB_POOL_SIZE: int = int(os.getenv("DB_POOL_SIZE", "10"))
 
     # Aplicación
     APP_HOST: str = os.getenv("APP_HOST", "0.0.0.0")

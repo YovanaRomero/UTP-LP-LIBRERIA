@@ -53,7 +53,6 @@ export class PedidoComponent implements OnInit {
   ngOnInit() {
     this.cargarCarrito();
     this.cargarClientes();
-    this.cargarPedidos();
   }
 
   // ==============================

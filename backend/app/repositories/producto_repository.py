@@ -48,7 +48,14 @@ class ProductoRepository:
             print(f"Error al obtener productos: {e}")
             return []
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ==========================
     # OBTENER PRODUCTO POR ID
@@ -92,7 +99,14 @@ class ProductoRepository:
             print(f"Error al obtener producto: {e}")
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ==========================
     # VALIDAR STOCK
@@ -137,7 +151,14 @@ class ProductoRepository:
             connection.rollback()
             return False
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ==========================
     # RESTAURAR STOCK (si se elimina un pedido/detalle)
@@ -163,7 +184,14 @@ class ProductoRepository:
             connection.rollback()
             return False
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ==========================
     # CREAR PRODUCTO
@@ -206,7 +234,14 @@ class ProductoRepository:
             connection.rollback()
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ==========================
     # ACTUALIZAR PRODUCTO
@@ -275,7 +310,14 @@ class ProductoRepository:
             connection.rollback()
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
 
     # ==========================
     # ELIMINAR PRODUCTO
@@ -300,4 +342,11 @@ class ProductoRepository:
             connection.rollback()
             return False
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass

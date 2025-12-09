@@ -36,4 +36,11 @@ class UsuarioRepository:
             print(f"Error al obtener usuario por nombre: {e}")
             return None
         finally:
-            cursor.close()
+            try:
+                cursor.close()
+            except Exception:
+                pass
+            try:
+                connection.close()
+            except Exception:
+                pass
