@@ -1,24 +1,20 @@
-:host ::ng-deep {
-  .badge {
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  
+  &-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
   }
-
-  .badge-success {
-    background-color: #c8e6c9;
-    color: #256029;
-  }
-
-  .badge-danger {
-    background-color: #ffcdd2;
-    color: #c63737;
-  }
-
-  .p-error {
-    display: block;
-    margin-top: 0.25rem;
+  
+  &-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }
 }

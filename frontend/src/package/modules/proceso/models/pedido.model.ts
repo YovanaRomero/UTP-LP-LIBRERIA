@@ -5,11 +5,11 @@ export interface PedidoRequest {
   pedido_subtotal: number;
   pedido_igv: number;
   pedido_total: number;
-  pedido_estado?: number; // 1 = activo
+  pedido_estado?: number;
   pedido_observaciones?: string;
-  productos: {
-    producto_id: number;
-    cantidad: number;
+  detalles: {
+    detalle_producto_id: number;
+    detalle_cantidad: number;
   }[];
 }
 

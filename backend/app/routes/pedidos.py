@@ -28,9 +28,9 @@ def obtener_pedido(pedido_id: int):
 # ==========================
 # CREAR PEDIDO COMPLETO
 # ==========================
-@router.post("/", response_model=Pedido, status_code=201)
+@router.post("/create", response_model=Pedido, status_code=201)
 def crear_pedido(pedido: PedidoCreate):
-    creado = PedidoService.crear_pedido(pedido)
+    creado = PedidoService.create(pedido)
     if creado is None:
         raise HTTPException(status_code=400, detail="Error al crear pedido")
     return creado

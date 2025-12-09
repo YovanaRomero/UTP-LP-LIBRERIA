@@ -23,7 +23,7 @@ export class PedidoService {
   }
 
   createPedido(body: PedidoRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}pedidos/`, body);
+    return this.http.post(`${this.apiUrl}pedidos/create`, body);
   }
 
   getClientes(): Observable<ClientePedidoModel[]> {

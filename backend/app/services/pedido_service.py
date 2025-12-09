@@ -53,10 +53,10 @@ class PedidoService:
     # CALCULAR MONTOS
     # ===========================
     @staticmethod
-    def calcular_subtotal(detalles: List[DetalleCreate]) -> Decimal:
+    def calcular_subtotal(detalles: List[DetalleCreate], productos: list) -> Decimal:
         subtotal = Decimal("0.00")
-        for d in detalles:
-            subtotal += Decimal(str(d.detalle_producto_precio)) * d.detalle_cantidad
+        for d, p in zip(detalles, productos):
+            subtotal += Decimal(str(p.producto_precio)) * d.detalle_cantidad
         return subtotal
 
     @staticmethod
@@ -80,7 +80,7 @@ class PedidoService:
         productos_validos = PedidoService.validar_productos(pedido_in.detalles)
 
         # 3) Calcular montos
-        subtotal = PedidoService.calcular_subtotal(pedido_in.detalles)
+        subtotal = PedidoService.calcular_subtotal(pedido_in.detalles, productos_validos)
         igv = PedidoService.calcular_igv(subtotal)
         total = PedidoService.calcular_total(subtotal, igv)
 
@@ -96,20 +96,18 @@ class PedidoService:
             raise HTTPException(status_code=500, detail="No se pudo crear el pedido.")
 
         # 6) Crear detalles y actualizar stock
-        for i, d in enumerate(pedido_in.detalles, start=1):
+        for i, (d, p) in enumerate(zip(pedido_in.detalles, productos_validos), start=1):
             detalle_data = DetalleCreate(
                 detalle_producto_id=d.detalle_producto_id,
-                detalle_producto_precio=d.detalle_producto_precio,
+                detalle_producto_precio=float(p.producto_precio),
                 detalle_cantidad=d.detalle_cantidad,
                 detalle_secuencia=i
             )
             # Crear detalle
             DetalleRepository.create(pedido_creado.pedido_id, detalle_data, i)
 
-            # Actualizar stock
-            producto = ProductoRepository.get_by_id(d.detalle_producto_id)
-            nuevo_stock = producto.producto_stock - d.detalle_cantidad
-            ProductoRepository.update_stock(producto.producto_id, nuevo_stock)
+            # Descontar stock
+            ProductoRepository.descontar_stock(p.producto_id, d.detalle_cantidad)
 
         return pedido_creado
 

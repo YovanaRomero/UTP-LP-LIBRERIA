@@ -3,7 +3,8 @@
 
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
-      <button pButton pRipple label="Nuevo Cliente" icon="pi pi-plus" class="p-button-outlined p-button-primary mr-2" (click)="openNew()"></button>
+      <button pButton pRipple label="Nuevo Cliente" icon="pi pi-plus" class="p-button-outlined p-button-primary mr-2"
+        (click)="openNew()"></button>
     </ng-template>
 
     <ng-template pTemplate="right">
@@ -14,18 +15,10 @@
     </ng-template>
   </p-toolbar>
 
-  <p-table
-    #dt
-    [value]="clientes"
-    [rows]="10"
-    [paginator]="true"
+  <p-table #dt [value]="clientes" [rows]="10" [paginator]="true"
     [globalFilterFields]="['cliente_dni', 'cliente_nombres', 'cliente_apellidos', 'cliente_correo']"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    [(selection)]="selectedClientes"
-    [rowHover]="true"
-    dataKey="cliente_id"
-    [loading]="loading"
-    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
+    [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedClientes" [rowHover]="true" dataKey="cliente_id"
+    [loading]="loading" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
     [showCurrentPageReport]="true">
 
     <ng-template pTemplate="header">
@@ -51,13 +44,11 @@
           <p-tableCheckbox [value]="cliente"></p-tableCheckbox>
         </td>
         <td>
-            <p-button icon="pi pi-pencil" severity="info" [outlined]="true"
-                            pTooltip="Editar" tooltipPosition="top" [rounded]="true" size="large"
-                            styleClass="border-2 mr-1" (click)="editCliente(cliente)"></p-button>
+          <p-button icon="pi pi-pencil" severity="info" [outlined]="true" pTooltip="Editar" tooltipPosition="top"
+            [rounded]="true" size="large" styleClass="border-2 mr-1" (click)="editCliente(cliente)"></p-button>
 
-            <p-button icon="pi pi-trash" severity="danger" [outlined]="true"
-                pTooltip="Eliminar" tooltipPosition="top" [rounded]="true" size="large"
-                styleClass="border-2 mr-1" (click)="deleteCliente(cliente)" ></p-button>
+          <p-button icon="pi pi-trash" severity="danger" [outlined]="true" pTooltip="Eliminar" tooltipPosition="top"
+            [rounded]="true" size="large" styleClass="border-2 mr-1" (click)="deleteCliente(cliente)"></p-button>
         </td>
         <td>{{ cliente.cliente_dni }}</td>
         <td>{{ cliente.cliente_nombres }}</td>
@@ -82,52 +73,59 @@
   </p-table>
 </div>
 
-<p-dialog
-  [(visible)]="clienteDialog"
-  [style]="{ width: '550px' , 'margin': '15px'  }"
-  [header]="cliente.cliente_id ? 'Editar Cliente' : 'Nuevo Cliente'"
-  [modal]="true"
-  styleClass="p-fluid">
+<p-dialog [(visible)]="clienteDialog" [style]="{ width: '550px' , 'margin': '15px'  }"
+  [header]="cliente.cliente_id ? 'Editar Cliente' : 'Nuevo Cliente'" [modal]="true" styleClass="p-fluid">
 
   <ng-template pTemplate="content">
     <div class="p-fluid grid formgrid">
-        <div class="field">
+      <div class="field">
         <label for="dni">DNI <span style="color: red">*</span></label>
         <input type="text" class="w-full" pInputText id="dni" [(ngModel)]="cliente.cliente_dni" required autofocus />
         <small class="p-error" *ngIf="submitted && !cliente.cliente_dni">El DNI es requerido.</small>
-        </div>
+      </div>
 
-        <div class="field">
+      <div class="field">
         <label for="nombres">Nombres <span style="color: red">*</span></label>
         <input type="text" class="w-full" pInputText id="nombres" [(ngModel)]="cliente.cliente_nombres" required />
         <small class="p-error" *ngIf="submitted && !cliente.cliente_nombres">Los nombres son requeridos.</small>
-        </div>
+      </div>
 
-        <div class="field">
+      <div class="field">
         <label for="apellidos">Apellidos <span style="color: red">*</span></label>
         <input type="text" class="w-full" pInputText id="apellidos" [(ngModel)]="cliente.cliente_apellidos" required />
         <small class="p-error" *ngIf="submitted && !cliente.cliente_apellidos">Los apellidos son requeridos.</small>
-        </div>
+      </div>
 
-        <div class="field">
+      <div class="field">
         <label for="correo">Correo Electrónico</label>
         <input type="email" class="w-full" pInputText id="correo" [(ngModel)]="cliente.cliente_correo" />
-        </div>
+      </div>
 
-        <div class="field">
+      <div class="field">
         <label for="celular">Celular</label>
         <input type="text" class="w-full" pInputText id="celular" [(ngModel)]="cliente.cliente_celular" />
-        </div>
+      </div>
 
-        <div class="field">
+      <div class="field">
         <label for="direccion">Dirección</label>
         <input type="text" class="w-full" pInputText id="direccion" [(ngModel)]="cliente.cliente_direccion" />
-        </div>
+      </div>
 
-        <div class="field">
+      <div class="field">
         <label for="distrito">Distrito</label>
         <input type="text" class="w-full" pInputText id="distrito" [(ngModel)]="cliente.cliente_distrito" />
+      </div>
+      <div class="field">
+        <label for="estado">Estado</label>
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch id="estado" [(ngModel)]="cliente.cliente_estado" [trueValue]="1" [falseValue]="0">
+          </p-toggleswitch>
+          <span class="ml-2">
+            {{ cliente.cliente_estado === 1 ? 'Activo' : 'Inactivo' }}
+          </span>
         </div>
+      </div>
+
     </div>
   </ng-template>
 

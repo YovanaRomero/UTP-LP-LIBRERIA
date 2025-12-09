@@ -1,107 +1,103 @@
 <div class="card">
-    <p-toast></p-toast>
+  <p-toast></p-toast>
 
-    <p-table #dt
-        [value]="productos"
-        [rows]="10"
-        [paginator]="true"
-        [globalFilterFields]="['producto_nombre','producto_descripcion']"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
-        styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped"
-        [(selection)]="selectedProductos"
-        [rowHover]="true"
-        dataKey="producto_id"
-        [loading]="loading"
-        selectionMode="single">
-        <ng-template pTemplate="caption">
-            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-                <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between py-2">
+  <p-table #dt [value]="productos" [rows]="10" [paginator]="true"
+    [globalFilterFields]="['producto_nombre','producto_descripcion']" [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped" [(selection)]="selectedProductos"
+    [rowHover]="true" dataKey="producto_id" [loading]="loading" selectionMode="single">
+    <ng-template pTemplate="caption">
+      <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between py-2">
 
-                    <div>
-                        <button pButton pRipple
-                            label="Agregar Nuevo" icon="pi pi-plus"
-                            class="p-button-outlined p-button-primary mr-2" (click)="openNew()"></button>
+          <div>
+            <button pButton pRipple label="Agregar Nuevo" icon="pi pi-plus"
+              class="p-button-outlined p-button-primary mr-2" (click)="openNew()"></button>
 
-                    </div>
-                </div>
-            </div>
-        </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-            <th style="min-width: 4rem">ACCIONES</th>
-            <th style="min-width: 2rem">N°</th>
-            <th style="min-width: 15rem">PRODUCTO</th>
-            <th style="min-width: 20rem">DESCRIPCIÓN</th>
-            <th style="min-width: 10rem">ESTADO</th>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
-        <tr>
-          <td>
-            <p-button icon="pi pi-pencil" severity="info" [outlined]="true"
-              pTooltip="Editar" tooltipPosition="top" [rounded]="true" size="large"
-              styleClass="border-2 mr-1" (click)="editProducto(row)"></p-button>
-
-            <p-button icon="pi pi-trash" severity="danger" [outlined]="true"
-              pTooltip="Eliminar" tooltipPosition="top" [rounded]="true" size="large"
-              styleClass="border-2 mr-1" (click)="deleteProducto(row)"></p-button>
-
-            <p-button icon="pi pi-shopping-cart" [outlined]="true"
-              pTooltip="Agregar" tooltipPosition="top" [rounded]="true" size="large"
-              styleClass="border-2 mr-1" (click)="agregarAlCarrito(row)"></p-button>
-          </td>
-          <td>{{ rowIndex + 1 }}</td>
-          <td>{{ row.producto_nombre | uppercase }}</td>
-          <td>{{ row.producto_descripcion | uppercase }}</td>
-          <td>
-            <p-chip [label]="row.producto_estado === 1 ? 'Activo' : 'Inactivo'"
-                    [styleClass]="getChip(row.producto_estado)">
-            </p-chip>
-          </td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="6" class="text-center">No se encontraron registros para mostrar</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-
-  <p-dialog
-  [(visible)]="productoDialog"
-  [style]="{ width: '550px' , 'margin': '15px' }"
-  [header]="producto.producto_id ? 'Editar Producto' : 'Nuevo Producto'"
-  [modal]="true"
-  styleClass="p-fluid">
-  <ng-template pTemplate="content">
-        <div class="p-fluid grid formgrid">
-
-            <div class="field">
-                <label for="categoria_nombre">Nombre del Producto <span style="color: red">*</span></label>
-                <input id="categoria_nombre" type="text" class="w-full" pInputText [(ngModel)]="producto.producto_nombre" [invalid]="!producto.producto_nombre" required autofocus />
-
-                @if (!producto.producto_nombre) {
-                    <p-message severity="error" variant="simple" size="small">El Nombre es requerido.</p-message>
-                }
-            </div>
-            <div class="field">
-                <label for="categoria_descripcion">Descripción <span style="color: red">*</span></label>
-                <input id="categoria_descripcion" type="text"class="w-full" pInputText  [(ngModel)]="producto.producto_descripcion" required/>
-                @if (!producto.producto_descripcion) {
-                    <p-message severity="error" variant="simple" size="small">La Descripción es requerida.</p-message>
-                }
-            </div>
-            <div class="field">
-                <label for="categoria_estado">Estado </label>
-                <p-select id="categoria_estado" [options]="estados" optionLabel="label" optionValue="value" class="w-full" appendTo="body"
-                    [(ngModel)]="producto.producto_estado" placeholder="Seleccione el estado">
-                </p-select>
-            </div>
+          </div>
         </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 4rem">ACCIONES</th>
+        <th style="min-width: 2rem">N°</th>
+        <th style="min-width: 15rem">PRODUCTO</th>
+        <th style="min-width: 20rem">DESCRIPCIÓN</th>
+        <th style="min-width: 20rem">PRECIO</th>
+        <th style="min-width: 20rem">STOCK</th>
+        <th style="min-width: 10rem">ESTADO</th>
+        <th style="min-width: 10rem">AGREGAR CARRITO</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <p-button icon="pi pi-pencil" severity="info" [outlined]="true" pTooltip="Editar" tooltipPosition="top"
+            [rounded]="true" size="large" styleClass="border-2 mr-1" (click)="editProducto(row)"></p-button>
+
+          <p-button icon="pi pi-trash" severity="danger" [outlined]="true" pTooltip="Eliminar" tooltipPosition="top"
+            [rounded]="true" size="large" styleClass="border-2 mr-1" (click)="deleteProducto(row)"></p-button>
+
+          
+        </td>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ row.producto_nombre | uppercase }}</td>
+        <td>{{ row.producto_descripcion | uppercase }}</td>
+        <td>{{ row.producto_precio.toFixed(2) }}</td>
+        <td>{{ row.producto_stock }}</td>
+        <td>
+          <p-chip [label]="row.producto_estado === 1 ? 'Activo' : 'Inactivo'"
+            [styleClass]="getChip(row.producto_estado)">
+          </p-chip>
+        </td>
+        <td>
+          <div class="flex justify-center font-bold">
+            <p-button icon="pi pi-shopping-cart" [outlined]="true" pTooltip="Agregar" tooltipPosition="top"
+            [rounded]="true" size="large"  styleClass="border-2 mr-1" (click)="agregarAlCarrito(row)"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">No se encontraron registros para mostrar</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="productoDialog" [style]="{ width: '550px' , 'margin': '15px' }"
+  [header]="producto.producto_id ? 'Editar Producto' : 'Nuevo Producto'" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-fluid grid formgrid">
+
+      <div class="field">
+        <label for="categoria_nombre">Nombre del Producto <span style="color: red">*</span></label>
+        <input id="categoria_nombre" type="text" class="w-full" pInputText [(ngModel)]="producto.producto_nombre"
+          [invalid]="!producto.producto_nombre" required autofocus />
+
+        @if (!producto.producto_nombre) {
+        <p-message severity="error" variant="simple" size="small">El Nombre es requerido.</p-message>
+        }
+      </div>
+      <div class="field">
+        <label for="categoria_descripcion">Descripción <span style="color: red">*</span></label>
+        <input id="categoria_descripcion" type="text" class="w-full" pInputText
+          [(ngModel)]="producto.producto_descripcion" required />
+        @if (!producto.producto_descripcion) {
+        <p-message severity="error" variant="simple" size="small">La Descripción es requerida.</p-message>
+        }
+      </div>
+      <div class="field">
+        <label for="categoria_estado">Estado </label>
+        <p-select id="categoria_estado" [options]="estados" optionLabel="label" optionValue="value" class="w-full"
+          appendTo="body" [(ngModel)]="producto.producto_estado" placeholder="Seleccione el estado">
+        </p-select>
+      </div>
+    </div>
   </ng-template>
 
   <ng-template pTemplate="footer">

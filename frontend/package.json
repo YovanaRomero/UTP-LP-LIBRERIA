@@ -26,7 +26,7 @@
         "crypto-js": "^4.2.0",
         "primeclt": "^0.1.5",
         "primeicons": "^7.0.0",
-        "primeng": "^20",
+        "primeng": "^20.4.0",
         "quill": "^2.0.3",
         "rxjs": "~7.8.0",
         "sweetalert2": "^11.26.3",

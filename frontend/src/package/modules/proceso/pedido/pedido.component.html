@@ -1,74 +1,185 @@
-<div class="card">
+<div class="container">
+  <h2 class="titulo">🛒 Gestión de Pedidos</h2>
 
-    <h2 class="titulo">🧾 Crear Pedido</h2>
+  <!-- BOTONES PARA CAMBIAR VISTA -->
+  <div class="view-selector">
+    <button 
+      class="btn-tab" 
+      [class.active]="vistaActual === 'crear'"
+      (click)="cambiarVista('crear')">
+      ➕ Crear Pedido
+    </button>
+    <button 
+      class="btn-tab" 
+      [class.active]="vistaActual === 'listar'"
+      (click)="cambiarVista('listar')">
+      📋 Ver Pedidos Registrados
+    </button>
+  </div>
 
-    <!-- MENSAJE DE ERROR -->
+  <!-- ========================================= -->
+  <!-- VISTA: CREAR PEDIDO -->
+  <!-- ========================================= -->
+  <div *ngIf="vistaActual === 'crear'">
+    
+    <!-- Alertas -->
     <div *ngIf="mensajeError" class="alert alert-error">
-        {{ mensajeError }}
+      {{ mensajeError }}
     </div>
 
-    <!-- MENSAJE DE ÉXITO -->
     <div *ngIf="pedidoCreado" class="alert alert-success">
-        Pedido creado correctamente.
-        <strong>Número: {{ pedidoNumero }}</strong>
+      Pedido creado exitosamente. Número: <strong>{{ pedidoNumero }}</strong>
     </div>
 
-    <!-- CLIENTE -->
+    <!-- Selector de Cliente con AutoComplete -->
     <div class="card">
-        <h3>Cliente</h3>
-        <select [(ngModel)]="clienteSeleccionado" class="select">
-            <option value="">Seleccione un cliente</option>
-            <option *ngFor="let c of clientes" [value]="c.cliente_id">
-                {{ c.nombres }} {{ c.apellidos }}
-            </option>
-        </select>
+      <label for="cliente">Cliente</label>
+      <p-autoComplete
+        [(ngModel)]="clienteSeleccionado"
+        [suggestions]="clientesFiltrados"
+        (completeMethod)="filtrarClientes($event)"
+        (onSelect)="onClienteSelect($event)"
+        (onClear)="onClienteClear()"
+        optionLabel="nombres"
+        [dropdown]="true"
+        [forceSelection]="true"
+        placeholder="Buscar cliente por nombre, apellido o documento..."
+        [style]="{'width':'100%'}"
+        [inputStyle]="{'width':'100%'}">
+        
+        <ng-template let-cliente pTemplate="item">
+          <div class="cliente-item">
+            <div class="cliente-nombre">
+              {{ cliente.nombres }} {{ cliente.apellidos }}
+            </div>
+            <div class="cliente-info">
+              DNI: {{ cliente.documento }} | {{ cliente.correo }}
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template let-cliente pTemplate="selectedItem">
+          {{ cliente.nombres }} {{ cliente.apellidos }} - {{ cliente.documento }}
+        </ng-template>
+      </p-autoComplete>
     </div>
 
-    <!-- CARRITO -->
+    <!-- Carrito de Productos -->
     <div class="card">
-        <h3>Carrito de Productos</h3>
-        <table class="tabla">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cant.</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of carrito; let i = index">
-                    <td>{{ item.nombre }}</td>
-                    <td>S/ {{ item.precio }}</td>
-                    <td>
-                        <input type="number" [(ngModel)]="item.cantidad" (change)="cambiarCantidad(item)"
-                            class="inp-cant" min="1" />
-                    </td>
-                    <td>S/ {{ item.precio * item.cantidad }}</td>
-                    <td>
+      <h3>Carrito de Productos</h3>
+      
+      <table class="tabla" *ngIf="carrito.length > 0; else carritoVacio">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cant.</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of carrito; let i = index">
+            <td>{{ item.nombre }}</td>
+            <td>S/ {{ item.precio.toFixed(2) }}</td>
+            <td>
+              <input 
+                type="number" 
+                class="inp-cant" 
+                [(ngModel)]="item.cantidad"
+                (change)="cambiarCantidad(item)"
+                min="1"
+              />
+            </td>
+            <td>S/ {{ (item.precio * item.cantidad).toFixed(2) }}</td>
+            <td>
+              <button 
+                class="btn-eliminar" 
+                (click)="eliminarProducto(i)"
+                title="Eliminar producto">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-                        <p-button icon="pi pi-trash" severity="danger" [outlined]="true" pTooltip="Eliminar"
-                            tooltipPosition="top" [rounded]="true" size="large" styleClass="border-2 mr-1"
-                            (click)="eliminarProducto(i)"></p-button>
-                    </td>
-                </tr>
-                <tr *ngIf="carrito.length === 0">
-                    <td colspan="5" class="empty">El carrito está vacío</td>
-                </tr>
-            </tbody>
-        </table>
+      <ng-template #carritoVacio>
+        <p class="empty">El carrito está vacío. Agrega productos desde el catálogo.</p>
+      </ng-template>
 
-        <div class="total">
-            <strong>Subtotal: S/ {{ subtotal }}</strong><br>
-            <strong>IGV (18%): S/ {{ igv }}</strong><br>
-            <strong>Total: S/ {{ total }}</strong>
-        </div>
+      <div class="total" *ngIf="carrito.length > 0">
+        <p><strong>Subtotal:</strong> S/ {{ subtotal.toFixed(2) }}</p>
+        <p><strong>IGV (18%):</strong> S/ {{ igv.toFixed(2) }}</p>
+        <p class="total-final"><strong>Total:</strong> S/ {{ total.toFixed(2) }}</p>
+      </div>
     </div>
 
-    <!-- BOTÓN CREAR PEDIDO -->
-    <div class="acciones">
-        <p-button icon="pi pi-check" variant="outlined" label="Guardar Pedido" severity="success" size="large" (click)="crearPedido()"></p-button>
-    </div>
+    <p-button 
+      label="Guardar Pedido" 
+      icon="pi pi-check"
+      (onClick)="crearPedido()"
+      [disabled]="!clienteSeleccionado || carrito.length === 0"
+      styleClass="p-button-success">
+    </p-button>
+  </div>
 
+  <!-- ========================================= -->
+  <!-- VISTA: LISTAR PEDIDOS REGISTRADOS -->
+  <!-- ========================================= -->
+  <div *ngIf="vistaActual === 'listar'">
+    <div class="card">
+      <h3>Pedidos Registrados</h3>
+      
+      <div *ngIf="cargandoPedidos" class="loading">
+        Cargando pedidos...
+      </div>
+
+      <p-table 
+        *ngIf="!cargandoPedidos"
+        [value]="pedidos" 
+        [paginator]="true" 
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} pedidos"
+        [tableStyle]="{'min-width': '50rem'}">
+        
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ID</th>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Fecha Registro</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-pedido>
+          <tr>
+            <td>{{ pedido.pedido_id }}</td>
+            <td><strong>{{ pedido.pedido_numero }}</strong></td>
+            <td>ID: {{ pedido.cliente_cliente_id }}</td>
+            <td>{{ pedido.pedido_fecha_registro | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td><strong>S/ {{ pedido.pedido_total?.toFixed(2) }}</strong></td>
+            <td>
+              <p-tag 
+                [value]="getEstadoLabel(pedido.pedido_estado)" 
+                [severity]="getEstadoSeverity(pedido.pedido_estado)">
+              </p-tag>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7" class="empty">
+              No hay pedidos registrados
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
 </div>

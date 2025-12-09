@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ClienteService } from './cliente.service';
 import { Cliente } from './cliente.model';
+import { ToggleSwitchModule } from 'primeng/toggleswitch'; 
 
 @Component({
   selector: 'app-cliente',
@@ -24,7 +25,8 @@ import { Cliente } from './cliente.model';
     InputTextModule,
     ToolbarModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    ToggleSwitchModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './cliente.component.html',
@@ -71,7 +73,7 @@ export class ClienteComponent implements OnInit {
   }
 
   openNew(): void {
-    this.cliente = {} as Cliente;
+    this.cliente = { cliente_estado: 1 } as Cliente;
     this.submitted = false;
     this.isEditMode = false;
     this.clienteDialog = true;

@@ -1,107 +1,210 @@
 .container {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 20px;
-  max-width: 900px;
-  margin: auto;
 }
 
 .titulo {
-  margin-bottom: 15px;
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.card {
-  background: #ffffff;
+// ========== TABS ==========
+.view-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.btn-tab {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: 2px solid #3498db;
+  background: white;
+  color: #3498db;
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-}
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
 
-.tabla {
-  width: 100%;
-  border-collapse: collapse;
+  &:hover {
+    background: #ecf0f1;
+  }
 
-  th, td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
+  &.active {
+    background: #3498db;
+    color: white;
   }
 }
 
-.empty {
-  text-align: center;
-  color: #777;
-}
-
-.total {
-  text-align: right;
-  font-size: 18px;
-  padding-top: 10px;
-}
-
+// ========== ALERTS ==========
 .alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  font-weight: bold;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
 .alert-error {
-  background: #ffe0e0;
-  color: #c62828;
+  background: #ffe6e6;
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f;
 }
 
 .alert-success {
-  background: #e0ffe5;
-  color: #2e7d32;
+  background: #e7f9f5;
+  color: #27ae60;
+  border-left: 4px solid #27ae60;
+}
+
+// ========== CARD ==========
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+
+  h3 {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 1.3rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+}
+
+// ========== AUTOCOMPLETE ==========
+.cliente-item {
+  padding: 8px 0;
+
+  .cliente-nombre {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .cliente-info {
+    font-size: 13px;
+    color: #7f8c8d;
+  }
+}
+
+// ========== TABLA CARRITO ==========
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+  thead {
+    background: #34495e;
+    color: white;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+  }
+
+  tbody tr:hover {
+    background: #f8f9fa;
+  }
 }
 
 .inp-cant {
   width: 60px;
-}
-
-.btn {
-  background: #1976d2;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-
-  &:hover {
-     opacity: .9;
-     cursor: pointer;
-  }
-}
-
-
-/* ==========================
-   Botón eliminar producto
-========================== */
-.btn-eliminar {
-  background-color: #ff4d4f;  // rojo suave
-  border: none;
-  color: white;
-  padding: 4px 8px;
+  padding: 6px;
+  border: 1px solid #bdc3c7;
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-
-  &:hover {
-    background-color: #ff1a1a;  // rojo más intenso al pasar el mouse
-    transform: scale(1.1);      // pequeño efecto de zoom
-  }
-
-  &:active {
-    transform: scale(0.95);     // efecto al presionar
-  }
-}
-
-/* Ajuste de la tabla para que no se vea apretado */
-.tabla td, .tabla th {
-  padding: 8px 12px;
   text-align: center;
 }
 
-.tabla .empty {
+.btn-eliminar {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+
+  &:hover {
+    background: #c0392b;
+  }
+}
+
+.btn-ver {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #2980b9;
+  }
+}
+
+// ========== TOTALES ==========
+.total {
+  background: #ecf0f1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+
+  p {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+
+  .total-final {
+    font-size: 20px;
+    color: #27ae60;
+    border-top: 2px solid #bdc3c7;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+}
+
+// ========== EMPTY STATE ==========
+.empty {
+  text-align: center;
+  color: #95a5a6;
   font-style: italic;
-  color: #777;
+  padding: 40px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #3498db;
+}
+
+// ========== RESPONSIVE ==========
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .view-selector {
+    flex-direction: column;
+  }
+
+  .tabla {
+    font-size: 14px;
+
+    th, td {
+      padding: 8px;
+    }
+  }
 }
