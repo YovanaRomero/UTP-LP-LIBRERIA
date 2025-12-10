@@ -7,6 +7,7 @@ export interface ProductoModel {
     producto_dimensiones?: string;
     producto_estado?: number;
     categoria_categoria_id?: number;
+    categoria_categoria_descripcion?: string;
     producto_id?: number;
     producto_guid?: string;
     producto_serie?: string;

@@ -11,6 +11,7 @@ class ProductoBase(BaseModel):
     producto_dimensiones: Optional[str] = None
     producto_estado: Optional[int] = None
     categoria_categoria_id: int
+    categoria_categoria_descripcion: Optional[str] = None
 
 
 class ProductoCreate(ProductoBase):

@@ -92,12 +92,9 @@
             </td>
             <td>S/ {{ (item.precio * item.cantidad).toFixed(2) }}</td>
             <td>
-              <button 
-                class="btn-eliminar" 
-                (click)="eliminarProducto(i)"
-                title="Eliminar producto">
-                🗑️
-              </button>
+              <p-button icon="pi pi-trash" severity="danger" [outlined]="true" pTooltip="Eliminar" tooltipPosition="top"
+            [rounded]="true" size="large" styleClass="border-2 mr-1" (click)="eliminarProducto(i)"></p-button>
+
             </td>
           </tr>
         </tbody>

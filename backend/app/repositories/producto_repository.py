@@ -19,11 +19,12 @@ class ProductoRepository:
         try:
             cursor = connection.cursor(dictionary=True)
             query = """
-                SELECT producto_id, producto_guid, producto_serie, producto_nombre, 
-                       producto_descripcion, producto_precio, producto_stock, 
-                       producto_color, producto_dimensiones, producto_estado, 
-                       categoria_categoria_id 
-                FROM producto
+                SELECT p.producto_id, p.producto_guid, p.producto_serie, p.producto_nombre, 
+                       p.producto_descripcion, p.producto_precio, p.producto_stock, 
+                       p.producto_color, p.producto_dimensiones, p.producto_estado, 
+                       p.categoria_categoria_id, c.categoria_descripcion AS categoria_categoria_descripcion
+                FROM producto p
+                INNER JOIN categoria c ON p.categoria_categoria_id = c.categoria_id
             """
             cursor.execute(query)
             rows = cursor.fetchall()
@@ -32,16 +33,17 @@ class ProductoRepository:
             for r in rows:
                 productos.append(Producto(
                     producto_id=r['producto_id'],
-                    producto_guid=r['producto_guid'],
-                    producto_serie=r['producto_serie'],
-                    producto_nombre=r['producto_nombre'],
-                    producto_descripcion=r['producto_descripcion'],
-                    producto_precio=r['producto_precio'],
-                    producto_stock=r['producto_stock'],
-                    producto_color=r['producto_color'],
-                    producto_dimensiones=r['producto_dimensiones'],
-                    producto_estado=r['producto_estado'],
-                    categoria_categoria_id=r['categoria_categoria_id']
+                    producto_guid=r.get('producto_guid'),
+                    producto_serie=r.get('producto_serie'),
+                    producto_nombre=r.get('producto_nombre'),
+                    producto_descripcion=r.get('producto_descripcion'),
+                    producto_precio=r.get('producto_precio'),
+                    producto_stock=r.get('producto_stock'),
+                    producto_color=r.get('producto_color'),
+                    producto_dimensiones=r.get('producto_dimensiones'),
+                    producto_estado=r.get('producto_estado'),
+                    categoria_categoria_id=r.get('categoria_categoria_id'),
+                    categoria_categoria_descripcion=r.get('categoria_categoria_descripcion')
                 ))
             return productos
 
