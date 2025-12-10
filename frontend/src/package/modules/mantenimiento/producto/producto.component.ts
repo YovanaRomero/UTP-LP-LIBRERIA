@@ -18,6 +18,8 @@ import { MessageModule } from 'primeng/message';
 
 import { ProductoModel } from '@/shared/models/producto.model';
 import { ProductoService } from '@/shared/service/producto.service';
+import { CategoriaService } from '@/shared/service/categoria.service';
+import { CategoriaModel } from '@/shared/models/categoria.model';
 
 @Component({
   selector: 'app-producto',
@@ -59,14 +61,34 @@ export class ProductoComponent implements OnInit {
     { label: 'Inactivo', value: 0 }
   ];
 
+  categorias: CategoriaModel[] = [];
+
   constructor(
     private productoService: ProductoService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
+    , private categoriaService: CategoriaService
   ) {}
 
   ngOnInit(): void {
     this.loadProductos();
+    this.loadCategorias();
+  }
+
+  loadCategorias(): void {
+    this.categoriaService.getAll().subscribe({
+      next: (data) => {
+        this.categorias = data || [];
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Aviso',
+          detail: 'No se pudieron cargar las categorías, intente más tarde',
+          life: 3000
+        });
+      }
+    });
   }
 
   loadProductos(): void {

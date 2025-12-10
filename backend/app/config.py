@@ -16,6 +16,8 @@ class Settings:
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "my801521my")
     # Pool de conexiones
     DB_POOL_SIZE: int = int(os.getenv("DB_POOL_SIZE", "10"))
+    # Tiempo máximo en segundos que una sesión esperará por un lock antes de fallar
+    DB_LOCK_WAIT_TIMEOUT: int = int(os.getenv("DB_LOCK_WAIT_TIMEOUT", "5"))
 
     # Aplicación
     APP_HOST: str = os.getenv("APP_HOST", "0.0.0.0")

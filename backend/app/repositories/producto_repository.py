@@ -1,4 +1,5 @@
 from mysql.connector import Error
+import time
 from ..database import db
 from ..models import Producto, ProductoCreate, ProductoUpdate
 
@@ -253,7 +254,8 @@ class ProductoRepository:
             return None
 
         try:
-            cursor = connection.cursor()
+            start = time.time()
+            cursor = connection.cursor(dictionary=True)
             update_fields = []
             values = []
 
@@ -300,9 +302,49 @@ class ProductoRepository:
                 WHERE producto_id = %s
             """
 
+            # execute update and commit
+            # Ensure session lock wait timeout is low to fail fast on contention
+            try:
+                cursor.execute("SET SESSION innodb_lock_wait_timeout = %s", (5,))
+            except Exception:
+                pass
+            exec_start = time.time()
             cursor.execute(query, tuple(values))
             connection.commit()
+            exec_end = time.time()
 
+            # Log timings for diagnosis
+            total_elapsed = time.time() - start
+            exec_elapsed = exec_end - exec_start
+            print(f"[producto.update] exec_elapsed={exec_elapsed:.4f}s total_elapsed={total_elapsed:.4f}s query=" + query)
+
+            # Fetch the updated row using the same connection (avoid opening a new connection)
+            try:
+                cursor.execute("""
+                    SELECT producto_id, producto_guid, producto_serie, producto_nombre, 
+                           producto_descripcion, producto_precio, producto_stock, 
+                           producto_color, producto_dimensiones, producto_estado, 
+                           categoria_categoria_id 
+                    FROM producto 
+                    WHERE producto_id = %s
+                """, (producto_id,))
+                r = cursor.fetchone()
+                if r:
+                    return Producto(
+                        producto_id=r['producto_id'],
+                        producto_guid=r['producto_guid'],
+                        producto_serie=r['producto_serie'],
+                        producto_nombre=r['producto_nombre'],
+                        producto_descripcion=r['producto_descripcion'],
+                        producto_precio=r['producto_precio'],
+                        producto_stock=r['producto_stock'],
+                        producto_color=r['producto_color'],
+                        producto_dimensiones=r['producto_dimensiones'],
+                        producto_estado=r['producto_estado'],
+                        categoria_categoria_id=r['categoria_categoria_id']
+                    )
+            except Exception as e:
+                print(f"[producto.update] error fetching updated row: {e}")
             return ProductoRepository.get_by_id(producto_id)
 
         except Error as e:

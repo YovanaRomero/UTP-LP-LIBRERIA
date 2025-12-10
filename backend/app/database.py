@@ -41,7 +41,18 @@ class Database:
             if self.pool is None:
                 return None
             # Devuelve una conexión del pool (el caller debe cerrarla para devolverla al pool)
-            return self.pool.get_connection()
+            conn = self.pool.get_connection()
+            # Aplicar ajustes de sesión para evitar esperas largas por locks
+            try:
+                cursor = conn.cursor()
+                lock_timeout = getattr(settings, 'DB_LOCK_WAIT_TIMEOUT', 5)
+                # innodb_lock_wait_timeout controla cuánto espera una transacción por bloqueos
+                cursor.execute("SET SESSION innodb_lock_wait_timeout = %s", (lock_timeout,))
+                cursor.close()
+            except Exception as e:
+                # No detener la obtención de conexión si no se pudo aplicar el ajuste
+                print(f"Warning: no se pudo aplicar innodb_lock_wait_timeout: {e}")
+            return conn
         except Error as e:
             print(f"Error al obtener conexión del pool: {e}")
             return None
