@@ -242,4 +242,41 @@ export class ProductoComponent implements OnInit {
       life: 2000
     });
   }
+  descargarExcel() {
+    this.productoService.exportarExcel().subscribe({
+      next: (response) => {
+        const blob = new Blob([response.body as BlobPart], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+  
+        const url = window.URL.createObjectURL(blob);
+  
+        const a = document.createElement('a');
+        a.href = url;
+  
+        // Si quieres leer el filename enviado desde FastAPI:
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let fileName = 'productos.xlsx';
+  
+        if (contentDisposition) {
+          const matches = /filename="([^"]+)"/.exec(contentDisposition);
+          if (matches?.length) fileName = matches[1];
+        }
+  
+        a.download = fileName;
+        a.click();
+  
+        window.URL.revokeObjectURL(url);
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo descargar el archivo',
+          life: 3000
+        });
+      }
+    });
+  }
+  
 }

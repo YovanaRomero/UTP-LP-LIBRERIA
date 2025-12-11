@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from typing import List
 from ..models import Producto, ProductoCreate, ProductoUpdate
 from ..services import ProductoService
+from fastapi.responses import StreamingResponse
 
 router = APIRouter(prefix="/productos", tags=["productos"])
 
@@ -62,7 +63,6 @@ def eliminar_producto(producto_id: int):
 
 
 #Grafico con panda de stock por producto
-from fastapi.responses import StreamingResponse
 
 @router.get("/stock/data")
 def stock_productos_data():
@@ -74,3 +74,21 @@ def stock_productos_data():
 def stock_productos_grafico():
     img = ProductoService.generar_grafico_stock()
     return StreamingResponse(img, media_type="image/png")
+
+#Llama la servicio que genera el excel
+@router.get("/exportar/excel")
+def exportar_excel_productos():
+    excel_file = ProductoService.generar_excel_productos()
+    if excel_file is None:
+        # sino hay producto devuelve un error 404 al cliente
+        raise HTTPException(status_code=404, detail="No hay productos para exportar")
+
+    #Envia el archivo excel al frontend como un stream, se especifica el tipo de EXCEL.
+    return StreamingResponse(
+        excel_file,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        #Indica el nombre que tendra el archivo, en este caso productos.xlsx
+        headers={
+            "Content-Disposition": "attachment; filename=productos.xlsx"
+        }
+    )

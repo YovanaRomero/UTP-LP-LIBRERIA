@@ -3,6 +3,7 @@ from ..repositories import ProductoRepository
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import pandas as pd
 import io
 
 class ProductoService:
@@ -47,19 +48,11 @@ class ProductoService:
         nombres = [p.producto_nombre for p in productos]
         stock = [p.producto_stock for p in productos]
 
-        fig, ax = plt.subplots(figsize=(10, 6))
-        barras = ax.barh(nombres, stock, color='skyblue')
-        
-        # Agregar valores en cada barra
-        for i, barra in enumerate(barras):
-            ancho = barra.get_width()
-            ax.text(ancho, barra.get_y() + barra.get_height()/2, 
-                   f' {int(ancho)}', 
-                   ha='left', va='center', fontweight='bold')
-        
-        ax.set_xlabel("Stock", fontsize=12, fontweight='bold', labelpad=10)
-        ax.set_ylabel("Productos", fontsize=12, fontweight='bold', labelpad=10)
-        ax.set_title("Análisis de Stock de Productos (Matplotlib)", fontsize=20, fontweight='bold', pad=20)
+        plt.figure(figsize=(10, 6))
+        plt.barh(nombres, stock, color='skyblue')
+        plt.xlabel("Stock")
+        plt.ylabel("Producto")
+        plt.title("Stock de Productos")
         plt.tight_layout()
 # SE GENERA EN FORMATO PNG
         buf = io.BytesIO()
@@ -67,3 +60,31 @@ class ProductoService:
         buf.seek(0)
         plt.close()
         return buf
+
+# SE GENERA EL REPORTE DE LOS PRODUCTOS EN EXCEL
+    @staticmethod
+    def generar_excel_productos():
+        #Se llama al repositorio para obtener los datos de la  base de datos,
+        #devolviendo una lista de objetos Pydantic
+        productos = ProductoRepository.get_all()
+        #Se valida si existen productos, de lo contrario no genera ningun excel
+        if not productos:
+            return None
+
+        # Convierte cada objeto en Pydantic en un Diccionario.
+        data = [p.dict() for p in productos]
+
+        # Crear DataFrame con pandas con la informacion de los productos
+        # Este dataframe sera la base de datos de excel
+        df = pd.DataFrame(data)
+
+        # Crear Excel en memoria
+        output = io.BytesIO()
+        #Pandas escribe el dataframe dentro de un archivo excel
+        #con el nombre de Productos
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name="Productos")
+
+        output.seek(0)
+        #finalmente devuelve el archivo excel para enviarlo al frontend
+        return output

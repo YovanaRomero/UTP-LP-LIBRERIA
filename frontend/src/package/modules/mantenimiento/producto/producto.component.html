@@ -7,6 +7,14 @@
     styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped" [(selection)]="selectedProductos"
     [rowHover]="true" dataKey="producto_id" [loading]="loading" selectionMode="single">
     <ng-template pTemplate="caption">
+      <div class="flex justify-content-between align-items-center">
+
+        <button pButton pRipple label="Exportar Excel"
+                icon="pi pi-file-excel"
+                class="p-button-outlined p-button-success"
+                (click)="descargarExcel()"></button>
+  
+    </div>
       <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
         <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between py-2">
 
