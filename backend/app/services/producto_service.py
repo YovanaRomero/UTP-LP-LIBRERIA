@@ -48,11 +48,19 @@ class ProductoService:
         nombres = [p.producto_nombre for p in productos]
         stock = [p.producto_stock for p in productos]
 
-        plt.figure(figsize=(10, 6))
-        plt.barh(nombres, stock, color='skyblue')
-        plt.xlabel("Stock")
-        plt.ylabel("Producto")
-        plt.title("Stock de Productos")
+        fig, ax = plt.subplots(figsize=(10, 6))
+        barras = ax.barh(nombres, stock, color='skyblue')
+        
+        # Agregar valores en cada barra
+        for i, barra in enumerate(barras):
+            ancho = barra.get_width()
+            ax.text(ancho, barra.get_y() + barra.get_height()/2, 
+                   f' {int(ancho)}', 
+                   ha='left', va='center', fontweight='bold')
+        
+        ax.set_xlabel("Stock", fontsize=12, fontweight='bold', labelpad=10)
+        ax.set_ylabel("Productos", fontsize=12, fontweight='bold', labelpad=10)
+        ax.set_title("Análisis de Stock de Productos (Matplotlib)", fontsize=20, fontweight='bold', pad=20)
         plt.tight_layout()
 # SE GENERA EN FORMATO PNG
         buf = io.BytesIO()
