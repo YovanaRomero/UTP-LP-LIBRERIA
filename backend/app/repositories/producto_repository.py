@@ -394,3 +394,27 @@ class ProductoRepository:
                 connection.close()
             except Exception:
                 pass
+
+    @staticmethod
+    def get_stock_productos():
+        """Obtiene el stock de cada producto (nombre y cantidad)."""
+        connection = db.get_connection()
+        if not connection:
+            return []
+
+        try:
+            cursor = connection.cursor(dictionary=True)
+            query = """
+                    SELECT producto_nombre, producto_stock
+                    FROM producto
+                    ORDER BY producto_stock ASC
+                """
+            cursor.execute(query)
+            results = cursor.fetchall()
+            return results
+        except Error as e:
+            print(f"Error al obtener stock de productos: {e}")
+            return []
+        finally:
+            cursor.close()
+            connection.close()

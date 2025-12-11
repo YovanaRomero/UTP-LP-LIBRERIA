@@ -3,12 +3,19 @@ import { AppLayout } from '@/layout/components/app.layout';
 import { Landing } from '@/pages/landing/landing';
 import { Notfound } from '@/pages/notfound/notfound';
 import { AuthGuard } from './app/guards/auth.guard';
+import { Dashboard } from '../src/package/dashboard/dashboard';
+
 export const appRoutes: Routes = [
     {
         path: '',
         component: AppLayout,
         canActivate: [AuthGuard],
         children: [
+            {
+                path: '',
+                component: Dashboard,   // 👈 Dashboard como inicio
+                data: { breadcrumb: 'Inicio' }
+            },
             {
                 path: 'pages',
                 loadChildren: () => import('@/pages/pages.routes'),

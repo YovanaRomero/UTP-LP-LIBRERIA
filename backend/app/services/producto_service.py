@@ -1,6 +1,9 @@
 from ..models import Producto, ProductoCreate, ProductoUpdate
 from ..repositories import ProductoRepository
-
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import io
 
 class ProductoService:
     """Servicio de lógica de negocio para productos."""
@@ -29,3 +32,30 @@ class ProductoService:
     def delete_producto(producto_id: int):
         """Eliminar un producto."""
         return ProductoRepository.delete(producto_id)
+
+
+# NUEVAS FUNCIONES DE STOCK Y GRÁFICO
+
+    @staticmethod
+    def obtener_stock_productos():
+        """Retorna stock como JSON."""
+        return ProductoRepository.get_stock_productos()
+# AQUI SE GENERA LA IMAGEN DE STOCK POR PRODUCTO
+    @staticmethod
+    def generar_grafico_stock():
+        productos = ProductoRepository.get_all()
+        nombres = [p.producto_nombre for p in productos]
+        stock = [p.producto_stock for p in productos]
+
+        plt.figure(figsize=(10, 6))
+        plt.barh(nombres, stock, color='skyblue')
+        plt.xlabel("Stock")
+        plt.ylabel("Producto")
+        plt.title("Stock de Productos")
+        plt.tight_layout()
+# SE GENERA EN FORMATO PNG
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        plt.close()
+        return buf

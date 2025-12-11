@@ -59,3 +59,18 @@ def eliminar_producto(producto_id: int):
             detail=f"Producto con ID {producto_id} no encontrado"
         )
     return {"message": f"Producto con ID {producto_id} eliminado correctamente"}
+
+
+#Grafico con panda de stock por producto
+from fastapi.responses import StreamingResponse
+
+@router.get("/stock/data")
+def stock_productos_data():
+    """Retorna stock en formato JSON."""
+    return ProductoService.obtener_stock_productos()
+
+#Grafico en el cual se genera
+@router.get("/stock/grafico")
+def stock_productos_grafico():
+    img = ProductoService.generar_grafico_stock()
+    return StreamingResponse(img, media_type="image/png")
